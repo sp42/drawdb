@@ -3,7 +3,7 @@ import { Action, ObjectType, sqlDataTypes } from "../../../data/constants";
 import { Row, Col, Input, Button, Select, TagInput, InputNumber, Popover } from "@douyinfe/semi-ui";
 import { IconDeleteStroked, IconMore } from "@douyinfe/semi-icons";
 import { isSized, hasPrecision, getSize } from "../../../utils/toSQL";
-import { useUndoRedo, useTypes } from "../../../hooks";
+import { useUndoRedo, useTypes } from "../../../context/hooks";
 import { useTranslation } from "react-i18next";
 
 export default function TypeField({ data, tid, fid }) {

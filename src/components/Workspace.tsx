@@ -5,7 +5,7 @@ import Canvas from "./EditorCanvas/Canvas";
 import SidePanel from "./EditorSidePanel/SidePanel";
 import { State } from "../data/constants";
 import { db } from "../data/db";
-import { useLayout, useSettings, useTransform, useTables, useUndoRedo, useAreas, useNotes, useTypes, useTasks, useSaveState } from "../hooks";
+import { useLayout, useSettings, useTransform, useTables, useUndoRedo, useAreas, useNotes, useTypes, useTasks, useSaveState } from "../context/hooks";
 import FloatingControls from "./FloatingControls";
 
 /**

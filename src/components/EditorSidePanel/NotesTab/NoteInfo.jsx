@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Collapse, TextArea, Popover, Input } from "@douyinfe/semi-ui";
 import { IconDeleteStroked, IconCheckboxTick } from "@douyinfe/semi-icons";
 import { noteThemes, Action, ObjectType } from "../../../data/constants";
-import { useNotes, useUndoRedo } from "../../../hooks";
+import { useNotes, useUndoRedo } from "../../../context/hooks";
 import { useTranslation } from "react-i18next";
 
 export default function NoteInfo({ data, nid }) {

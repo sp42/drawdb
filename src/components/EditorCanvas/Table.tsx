@@ -1,20 +1,15 @@
+import React from "react";
 import { useState } from "react";
 import { Tab, ObjectType, tableFieldHeight, tableHeaderHeight, tableColorStripHeight } from "../../data/constants";
 import { IconEdit, IconMore, IconMinus, IconDeleteStroked, IconKeyStroked } from "@douyinfe/semi-icons";
 import { Popover, Tag, Button, SideSheet } from "@douyinfe/semi-ui";
-import { useLayout, useSettings, useTables, useSelect } from "../../hooks";
+import { useLayout, useSettings, useTables, useSelect } from "../../context/hooks";
 import TableInfo from "../EditorSidePanel/TablesTab/TableInfo";
 import { useTranslation } from "react-i18next";
 
 export default function Table(props) {
   const [hoveredField, setHoveredField] = useState(-1);
-  const {
-    tableData,
-    onMouseDown,
-    setHoveredTable,
-    handleGripField,
-    setLinkingLine,
-  } = props;
+  const { tableData, onMouseDown, setHoveredTable, handleGripField, setLinkingLine } = props;
   const { layout } = useLayout();
   const { deleteTable, deleteField } = useTables();
   const { settings } = useSettings();
@@ -23,20 +18,12 @@ export default function Table(props) {
 
   const height = tableData.fields.length * tableFieldHeight + tableHeaderHeight + 7;
   const openEditor = () => {
-    if (!layout.sidebar) {
+    if (!layout.sidebar)
       setSelectedElement((prev) => ({ ...prev, element: ObjectType.TABLE, id: tableData.id, open: true }));
-    } else {
-      setSelectedElement((prev) => ({
-        ...prev,
-        currentTab: Tab.TABLES,
-        element: ObjectType.TABLE,
-        id: tableData.id,
-        open: true,
-      }));
+    else {
+      setSelectedElement((prev) => ({ ...prev, currentTab: Tab.TABLES, element: ObjectType.TABLE, id: tableData.id, open: true }));
       if (selectedElement.currentTab !== Tab.TABLES) return;
-      document
-        .getElementById(`scroll_table_${tableData.id}`)
-        .scrollIntoView({ behavior: "smooth" });
+      document.getElementById(`scroll_table_${tableData.id}`)?.scrollIntoView({ behavior: "smooth" });
     }
   };
 

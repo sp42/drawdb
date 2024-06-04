@@ -10,7 +10,7 @@ import { Spin, Input, Image, Toast, Modal as SemiUIModal, InputNumber } from "@d
 import { MODAL, STATUS } from "../../../data/constants";
 import { useState } from "react";
 import { db } from "../../../data/db";
-import { useAreas, useNotes, useSettings, useTables, useTransform, useTypes, useUndoRedo, } from "../../../hooks";
+import { useAreas, useNotes, useSettings, useTables, useTransform, useTypes, useUndoRedo, } from "../../../context/hooks";
 import { saveAs } from "file-saver";
 import { Parser } from "node-sql-parser";
 import { astToDiagram } from "../../../utils/astToDiagram";

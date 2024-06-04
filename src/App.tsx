@@ -6,7 +6,7 @@ import Shortcuts from "./pages/Shortcuts";
 import Templates from "./pages/Templates";
 import LandingPage from "./pages/LandingPage";
 import SettingsContextProvider from "./context/SettingsContext";
-import { useSettings } from "./hooks";
+import { useSettings } from "./context/hooks";
 
 export default function App() {
   return (

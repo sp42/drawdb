@@ -2,7 +2,7 @@ import React from 'react';
 import { ddbDiagramIsValid, jsonDiagramIsValid } from "../../../utils/validateSchema";
 import { Upload, Banner } from "@douyinfe/semi-ui";
 import { STATUS } from "../../../data/constants";
-import { useAreas, useNotes, useTables } from "../../../hooks";
+import { useAreas, useNotes, useTables } from "../../../context/hooks";
 import { useTranslation } from "react-i18next";
 import { ErrorType, ImportDataType } from './type';
 

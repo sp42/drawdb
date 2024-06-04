@@ -10,7 +10,7 @@ import {
 import { Action, ObjectType } from "../../../data/constants";
 import { IconDeleteStroked } from "@douyinfe/semi-icons";
 import { hasCheck, hasPrecision, isSized } from "../../../utils/toSQL";
-import { useTables, useUndoRedo } from "../../../hooks";
+import { useTables, useUndoRedo } from "../../../context/hooks";
 import { useTranslation } from "react-i18next";
 
 export default function FieldDetails({ data, tid, index }) {

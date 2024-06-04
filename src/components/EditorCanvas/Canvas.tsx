@@ -19,7 +19,7 @@ import {
   useAreas,
   useNotes,
   useLayout,
-} from "../../hooks";
+} from "../../context/hooks";
 import { useTranslation } from "react-i18next";
 import { diagram } from "../../data/heroDiagram";
 

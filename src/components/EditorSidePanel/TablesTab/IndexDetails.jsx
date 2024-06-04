@@ -1,7 +1,7 @@
 import { Action, ObjectType } from "../../../data/constants";
 import { Input, Button, Popover, Checkbox, Select } from "@douyinfe/semi-ui";
 import { IconMore, IconDeleteStroked } from "@douyinfe/semi-icons";
-import { useTables, useUndoRedo } from "../../../hooks";
+import { useTables, useUndoRedo } from "../../../context/hooks";
 import { useTranslation } from "react-i18next";
 
 export default function IndexDetails({ data, fields, iid, tid }) {

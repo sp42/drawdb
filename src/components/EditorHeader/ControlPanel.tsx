@@ -1,27 +1,27 @@
-import React from 'react';
 import { useState } from "react";
 import { IconCaretdown, IconChevronRight, IconChevronUp, IconChevronDown, IconSaveStroked, IconUndo, IconRedo, IconEdit } from "@douyinfe/semi-icons";
 import { Link, useNavigate } from "react-router-dom";
-import icon from "../../assets/icon_dark_64.png";
 import { Button, Divider, Dropdown, InputNumber, Tooltip, Spin, Toast, Popconfirm } from "@douyinfe/semi-ui";
 import { toPng, toJpeg, toSvg } from "html-to-image";
 import { saveAs } from "file-saver";
 import { jsonToMySQL, jsonToPostgreSQL, jsonToSQLite, jsonToMariaDB, jsonToSQLServer } from "../../utils/toSQL";
 import { ObjectType, Action, Tab, State, MODAL, SIDESHEET } from "../../data/constants";
-import jsPDF from "jspdf";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Validator } from "jsonschema";
 import { areaSchema, noteSchema, tableSchema } from "../../data/schemas";
 import { db } from "../../data/db";
-import { useLayout, useSettings, useTransform, useTables, useUndoRedo, useSelect } from "../../hooks";
+import { useLayout, useSettings, useTransform, useTables, useUndoRedo, useSelect } from "../../context/hooks";
 import { enterFullscreen } from "../../utils/fullscreen";
 import { dataURItoBlob } from "../../utils/utils";
-import { useTypes, useNotes, useAreas, useSaveState } from "../../hooks";
-import { IconAddArea, IconAddNote, IconAddTable } from "../../icons";
+import { useTypes, useNotes, useAreas, useSaveState } from "../../context/hooks";
+import { IconAddArea, IconAddNote, IconAddTable } from "../../utils/svgIcons";
+import { useTranslation } from "react-i18next";
+import icon from "../../assets/icon_dark_64.png";
+import jsPDF from "jspdf";
+import React from 'react';
 import LayoutDropdown from "./LayoutDropdown";
 import Sidesheet from "./SideSheet/Sidesheet";
 import Modal from "./Modal/Modal";
-import { useTranslation } from "react-i18next";
 
 export default function ControlPanel({ diagramId, setDiagramId, title, setTitle, lastSaved }) {
   const [modal, setModal] = useState(MODAL.NONE);
@@ -36,8 +36,7 @@ export default function ControlPanel({ diagramId, setDiagramId, title, setTitle,
   const { saveState, setSaveState } = useSaveState();
   const { layout, setLayout } = useLayout();
   const { settings, setSettings } = useSettings();
-  const { relationships, tables, setTables, addTable, updateTable, deleteField, deleteTable, updateField, setRelationships, addRelationship, deleteRelationship,
-  } = useTables();
+  const { relationships, tables, setTables, addTable, updateTable, deleteField, deleteTable, updateField, setRelationships, addRelationship, deleteRelationship } = useTables();
   const { types, addType, deleteType, updateType, setTypes } = useTypes();
   const { notes, setNotes, updateNote, addNote, deleteNote } = useNotes();
   const { areas, setAreas, updateArea, addArea, deleteArea } = useAreas();
@@ -47,8 +46,7 @@ export default function ControlPanel({ diagramId, setDiagramId, title, setTitle,
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const invertLayout = (component) =>
-    setLayout((prev) => ({ ...prev, [component]: !prev[component] }));
+  const invertLayout = (component) => setLayout((prev) => ({ ...prev, [component]: !prev[component] }));
 
   const undo = () => {
     if (undoStack.length === 0) return;
@@ -433,18 +431,14 @@ export default function ControlPanel({ diagramId, setDiagramId, title, setTitle,
       else {
         setSelectedElement((prev) => ({ ...prev, open: true, currentTab: Tab.TABLES }));
         if (selectedElement.currentTab !== Tab.TABLES) return;
-        document.getElementById(`scroll_table_${selectedElement.id}`).scrollIntoView({ behavior: "smooth" });
+        document.getElementById(`scroll_table_${selectedElement.id}`)?.scrollIntoView({ behavior: "smooth" });
       }
     } else if (selectedElement.element === ObjectType.AREA) {
       if (layout.sidebar) {
-        setSelectedElement((prev) => ({
-          ...prev,
-          currentTab: Tab.AREAS,
-        }));
-        if (selectedElement.currentTab !== Tab.AREAS) return;
-        document
-          .getElementById(`scroll_area_${selectedElement.id}`)
-          .scrollIntoView({ behavior: "smooth" });
+        setSelectedElement((prev) => ({ ...prev, currentTab: Tab.AREAS }));
+        if (selectedElement.currentTab !== Tab.AREAS)
+          return;
+        document.getElementById(`scroll_area_${selectedElement.id}`)?.scrollIntoView({ behavior: "smooth" });
       } else {
         setSelectedElement((prev) => ({
           ...prev,
@@ -459,10 +453,9 @@ export default function ControlPanel({ diagramId, setDiagramId, title, setTitle,
           currentTab: Tab.NOTES,
           open: false,
         }));
-        if (selectedElement.currentTab !== Tab.NOTES) return;
-        document
-          .getElementById(`scroll_note_${selectedElement.id}`)
-          .scrollIntoView({ behavior: "smooth" });
+        if (selectedElement.currentTab !== Tab.NOTES)
+          return;
+        document.getElementById(`scroll_note_${selectedElement.id}`)?.scrollIntoView({ behavior: "smooth" });
       } else {
         setSelectedElement((prev) => ({
           ...prev,
@@ -1229,10 +1222,7 @@ export default function ControlPanel({ diagramId, setDiagramId, title, setTitle,
                                   <Dropdown.Menu>
                                     {menu[category][item].children.map(
                                       (e, i) => (
-                                        <Dropdown.Item
-                                          key={i}
-                                          onClick={Object.values(e)[0]}
-                                        >
+                                        <Dropdown.Item key={i} onClick={Object.values(e)[0]}                                        >
                                           {t(Object.keys(e)[0])}
                                         </Dropdown.Item>
                                       ),
@@ -1240,10 +1230,7 @@ export default function ControlPanel({ diagramId, setDiagramId, title, setTitle,
                                   </Dropdown.Menu>
                                 }
                               >
-                                <Dropdown.Item
-                                  style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
-                                  onClick={menu[category][item].function}
-                                >
+                                <Dropdown.Item style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} onClick={menu[category][item].function}                               >
                                   {t(item)}
                                   <IconChevronRight />
                                 </Dropdown.Item>

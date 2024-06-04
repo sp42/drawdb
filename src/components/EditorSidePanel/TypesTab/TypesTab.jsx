@@ -1,6 +1,6 @@
 import { Collapse, Button, Popover } from "@douyinfe/semi-ui";
 import { IconPlus, IconInfoCircle } from "@douyinfe/semi-icons";
-import { useSelect, useTypes } from "../../../hooks";
+import { useSelect, useTypes } from "../../../context/hooks";
 import { ObjectType } from "../../../data/constants";
 import { AutoComplete } from "@douyinfe/semi-ui";
 import { IconSearch } from "@douyinfe/semi-icons";

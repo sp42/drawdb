@@ -8,7 +8,7 @@ import {
   Popover,
 } from "@douyinfe/semi-ui";
 import { IconDeleteStroked } from "@douyinfe/semi-icons";
-import { useTables, useUndoRedo } from "../../../hooks";
+import { useTables, useUndoRedo } from "../../../context/hooks";
 import { Action, ObjectType, defaultBlue } from "../../../data/constants";
 import ColorPalette from "../../ColorPicker";
 import TableField from "./TableField";

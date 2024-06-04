@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useSelect } from "../../../hooks";
+import { useSelect } from "../../../context/hooks";
 import { AutoComplete } from "@douyinfe/semi-ui";
 import { IconSearch } from "@douyinfe/semi-icons";
 import { ObjectType } from "../../../data/constants";

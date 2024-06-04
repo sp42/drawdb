@@ -1,25 +1,44 @@
 import React from 'react';
 import { createContext, useState } from "react";
 import { Action, ObjectType, defaultNoteTheme } from "../data/constants";
-import { useSelect, useUndoRedo, useTransform } from "../hooks";
+import { useSelect, useUndoRedo, useTransform } from "../context/hooks";
 import { Toast } from "@douyinfe/semi-ui";
 import { useTranslation } from "react-i18next";
 
-type NotesContextType = {
-  notes: [],
-  // setNotes: React.Dispatch<React.SetStateAction<[]>>, updateNote, addNote, deleteNote
+type NotesContext = {
+  id: number
+  x: number
+  y: number
+  title: string
+  content: string
+  color: string
+  height: number
 };
 
-export const NotesContext: React.Context<NotesContextType> = createContext(null);
+type NotesContextType = {
+  notes: NotesContext[]
+  setNotes: React.Dispatch<React.SetStateAction<NotesContext[]>>
+  updateNote: (id: number, values: []) => void
+  addNote: (data: any, addToHistory: boolean) => void
+  deleteNote: (id: number, addToHistory: boolean) => void
+};
+const _notes: NotesContext[] = [];
+export const NotesContext: React.Context<NotesContextType> = createContext({
+  notes: _notes,
+  setNotes(v) { },
+  updateNote(id, values) { },
+  addNote(data, addToHistory) { },
+  deleteNote(id, addToHistory) { }
+});
 
 export default function NotesContextProvider({ children }: { children: React.ReactNode }): React.JSX.Element {
   const { t } = useTranslation();
-  const [notes, setNotes] = useState<[]>([]);
+  const [notes, setNotes] = useState<NotesContext[]>([]);
   const { transform } = useTransform();
   const { setUndoStack, setRedoStack } = useUndoRedo();
   const { selectedElement, setSelectedElement } = useSelect();
 
-  const addNote = (data, addToHistory = true) => {
+  const addNote = (data: any, addToHistory: boolean = true) => {
     if (data) {
       setNotes((prev) => {
         const temp = prev.slice();
@@ -36,7 +55,7 @@ export default function NotesContextProvider({ children }: { children: React.Rea
     }
   };
 
-  const deleteNote = (id, addToHistory = true) => {
+  const deleteNote = (id: number, addToHistory: boolean = true) => {
     if (addToHistory) {
       Toast.success(t("note_deleted"));
       setUndoStack((prev) => [...prev, { action: Action.DELETE, element: ObjectType.NOTE, data: notes[id], message: t("delete_note", { noteTitle: notes[id].title }) }]);
@@ -49,7 +68,7 @@ export default function NotesContextProvider({ children }: { children: React.Rea
       setSelectedElement((prev) => ({ ...prev, element: ObjectType.NONE, id: -1, open: false }));
   };
 
-  const updateNote = (id, values) => {
+  const updateNote = (id: number, values: []) => {
     setNotes((prev) => prev.map((t) => {
       if (t.id === id)
         return { ...t, ...values };

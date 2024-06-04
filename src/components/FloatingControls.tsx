@@ -1,6 +1,6 @@
 import React from 'react';
 import { Divider, Tooltip } from "@douyinfe/semi-ui";
-import { useTransform, useLayout } from "../hooks";
+import { useTransform, useLayout } from "../context/hooks";
 import { exitFullscreen } from "../utils/fullscreen";
 import { useTranslation } from "react-i18next";
 

@@ -1,8 +1,9 @@
+import React from "react";
 import { useState } from "react";
 import { Action, ObjectType, Tab, State, noteThemes } from "../../data/constants";
 import { Input, Button, Popover } from "@douyinfe/semi-ui";
 import { IconEdit, IconDeleteStroked, IconCheckboxTick } from "@douyinfe/semi-icons";
-import { useLayout, useUndoRedo, useSelect, useNotes, useSaveState } from "../../hooks";
+import { useLayout, useUndoRedo, useSelect, useNotes, useSaveState } from "../../context/hooks";
 import { useTranslation } from "react-i18next";
 
 export default function Note({ data, onMouseDown }) {

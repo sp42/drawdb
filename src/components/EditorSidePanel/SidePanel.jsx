@@ -1,6 +1,6 @@
 import { Tabs, TabPane } from "@douyinfe/semi-ui";
 import { Tab } from "../../data/constants";
-import { useLayout, useSelect } from "../../hooks";
+import { useLayout, useSelect } from "../../context/hooks";
 import RelationshipsTab from "./RelationshipsTab/RelationshipsTab";
 import TypesTab from "./TypesTab/TypesTab";
 import Issues from "./Issues";

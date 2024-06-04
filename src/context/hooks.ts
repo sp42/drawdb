@@ -1,15 +1,15 @@
 import { useContext } from "react";
-import { AreasContext } from "../context/AreasContext";
-import { LayoutContext } from "../context/LayoutContext";
-import { SaveStateContext } from "../context/SaveStateContext";
-import { NotesContext } from "../context/NotesContext";
-import { SelectContext } from "../context/SelectContext";
-import { SettingsContext } from "../context/SettingsContext";
-import { TransformContext } from "../context/TransformContext";
-import { TypesContext } from "../context/TypesContext";
-import { UndoRedoContext } from "../context/UndoRedoContext";
-import { TasksContext } from "../context/TasksContext";
-import { TablesContext } from "../context/TablesContext";
+import { AreasContext } from "./AreasContext";
+import { LayoutContext } from "./LayoutContext";
+import { SaveStateContext } from "./SaveStateContext";
+import { NotesContext } from "./NotesContext";
+import { SelectContext } from "./SelectContext";
+import { SettingsContext } from "./SettingsContext";
+import { TransformContext } from "./TransformContext";
+import { TypesContext } from "./TypesContext";
+import { UndoRedoContext } from "./UndoRedoContext";
+import { TasksContext } from "./TasksContext";
+import { TablesContext } from "./TablesContext";
 
 export function useAreas() {
     return useContext(AreasContext);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { createContext, useState } from "react";
 import { Action, ObjectType, defaultBlue } from "../data/constants";
-import { useSelect, useUndoRedo, useTransform } from "../hooks";
+import { useSelect, useUndoRedo, useTransform } from "../context/hooks";
 import { Toast } from "@douyinfe/semi-ui";
 import { useTranslation } from "react-i18next";
 
@@ -29,9 +29,10 @@ type TablesContext = {
   color: string,
   key: any
 };
-type TablesContextTYPE = {
-  tables: []
-  setTables: React.Dispatch<React.SetStateAction<[]>>
+
+type TablesContextType = {
+  tables: TablesContext[]
+  setTables: React.Dispatch<React.SetStateAction<TablesContext[]>>
   addTable: (data: any, addToHistory: boolean) => void,
   updateTable: (id: number, updatedValues: []) => void,
   updateField: (tid: number, fid: number, updatedValues: []) => void,
@@ -43,9 +44,11 @@ type TablesContextTYPE = {
   deleteRelationship: (id: number, addToHistory: boolean) => void
 }
 
-export const TablesContext: React.Context<TablesContextTYPE> = createContext({
-  tables: [],
-  setTables: (v: any) => { },
+const _tables: TablesContext[] = [];
+
+export const TablesContext: React.Context<TablesContextType> = createContext({
+  tables: _tables,
+  setTables(v) { },
   addTable: (data: any, addToHistory: boolean) => { },
   updateTable: (id: number, updatedValues: []) => { },
   updateField: (tid: number, fid: number, updatedValues: []) => { },
@@ -60,7 +63,7 @@ export const TablesContext: React.Context<TablesContextTYPE> = createContext({
 export default function TablesContextProvider({ children }: { children: React.ReactNode }): React.JSX.Element {
   const { t } = useTranslation();
   const { transform } = useTransform();
-  const [tables, setTables] = useState<[]>([]);
+  const [tables, setTables] = useState<TablesContext[]>([]);
   const [relationships, setRelationships] = useState<[]>([]);
   const { setUndoStack, setRedoStack } = useUndoRedo();
   const { selectedElement, setSelectedElement } = useSelect();
@@ -137,29 +140,18 @@ export default function TablesContextProvider({ children }: { children: React.Re
 
     setTables((prev) => prev.filter((e) => e.id !== id).map((e, i) => ({ ...e, id: i })));
     if (id === selectedElement.id) {
-      setSelectedElement((prev) => ({
-        ...prev,
-        element: ObjectType.NONE,
-        id: -1,
-        open: false,
-      }));
+      setSelectedElement((prev) => ({ ...prev, element: ObjectType.NONE, id: -1, open: false }));
     }
   };
 
-  const updateTable = (id: number, updatedValues: []): void => {
-    setTables((prev) => prev.map((t) => (t.id === id ? { ...t, ...updatedValues } : t)));
-  };
+  const updateTable = (id: number, updatedValues: []): void => setTables((prev) => prev.map((t) => (t.id === id ? { ...t, ...updatedValues } : t)));
 
   const updateField = (tid: number, fid: number, updatedValues: []) => {
     setTables((prev) =>
       prev.map((table, i) => {
-        if (tid === i) {
-          return {
-            ...table,
-            fields: table.fields.map((field, j) => fid === j ? { ...field, ...updatedValues } : field,
-            ),
-          };
-        }
+        if (tid === i)
+          return { ...table, fields: table.fields.map((field, j) => fid === j ? { ...field, ...updatedValues } : field) };
+
         return table;
       }),
     );
@@ -183,12 +175,7 @@ export default function TablesContextProvider({ children }: { children: React.Re
     }
     setRelationships((prev) => {
       const temp = prev
-        .filter(
-          (e) =>
-            !(
-              (e.startTableId === tid && e.startFieldId === field.id) || (e.endTableId === tid && e.endFieldId === field.id)
-            )
-        )
+        .filter((e) => !((e.startTableId === tid && e.startFieldId === field.id) || (e.endTableId === tid && e.endFieldId === field.id)))
         .map((e, i) => {
           if (e.startTableId === tid && e.startFieldId > field.id)
             return { ...e, startFieldId: e.startFieldId - 1, id: i };

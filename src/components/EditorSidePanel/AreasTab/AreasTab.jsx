@@ -1,7 +1,7 @@
 import { Button } from "@douyinfe/semi-ui";
 import { IconPlus } from "@douyinfe/semi-icons";
 import Empty from "../Empty";
-import { useAreas } from "../../../hooks";
+import { useAreas } from "../../../context/hooks";
 import SearchBar from "./SearchBar";
 import AreaInfo from "./AreaDetails";
 import { useTranslation } from "react-i18next";

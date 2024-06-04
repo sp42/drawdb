@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Popover, Input } from "@douyinfe/semi-ui";
 import { IconEdit, IconDeleteStroked } from "@douyinfe/semi-icons";
 import { Tab, Action, ObjectType, defaultBlue, State } from "../../data/constants";
-import { useLayout, useSettings, useUndoRedo, useSelect, useAreas, useSaveState, useTransform } from "../../hooks";
+import { useLayout, useSettings, useUndoRedo, useSelect, useAreas, useSaveState, useTransform } from "../../context/hooks";
 import ColorPalette from "../ColorPicker";
 import { useTranslation } from "react-i18next";
 

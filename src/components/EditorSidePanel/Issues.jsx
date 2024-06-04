@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Collapse, Badge } from "@douyinfe/semi-ui";
 import { arrayIsEqual } from "../../utils/utils";
 import { getIssues } from "../../utils/issues";
-import { useSettings, useTables, useTypes } from "../../hooks";
+import { useSettings, useTables, useTypes } from "../../context/hooks";
 import { useTranslation } from "react-i18next";
 
 export default function Issues() {
@@ -28,11 +28,7 @@ export default function Issues() {
     <Collapse keepDOM lazyRender style={{ width: "100%" }}>
       <Collapse.Panel
         header={
-          <Badge            type={issues.length > 0 ? "danger" : "primary"}
-            count={settings.strictMode ? null : issues.length}
-            overflowCount={99}
-            className="mt-1"
-          >
+          <Badge type={issues.length > 0 ? "danger" : "primary"} count={settings.strictMode ? null : issues.length} overflowCount={99} className="mt-1">
             <div className="pe-3 select-none">
               <i className="fa-solid fa-triangle-exclamation me-2 text-yellow-500" />
               {t("issues")}

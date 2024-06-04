@@ -1,5 +1,5 @@
 import { Collapse } from "@douyinfe/semi-ui";
-import { useSelect, useTables } from "../../../hooks";
+import { useSelect, useTables } from "../../../context/hooks";
 import Empty from "../Empty";
 import SearchBar from "./SearchBar";
 import RelationshipInfo from "./RelationshipInfo";

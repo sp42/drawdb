@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Row, Col, Button, Input, Popover } from "@douyinfe/semi-ui";
 import { IconDeleteStroked } from "@douyinfe/semi-icons";
-import { useAreas, useSaveState, useUndoRedo } from "../../../hooks";
+import { useAreas, useSaveState, useUndoRedo } from "../../../context/hooks";
 import {
   Action,
   ObjectType,

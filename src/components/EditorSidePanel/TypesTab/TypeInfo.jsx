@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Action, ObjectType } from "../../../data/constants";
 import { Collapse, Row, Col, Input, TextArea, Button, Card } from "@douyinfe/semi-ui";
 import { IconDeleteStroked, IconPlus } from "@douyinfe/semi-icons";
-import { useUndoRedo, useTypes } from "../../../hooks";
+import { useUndoRedo, useTypes } from "../../../context/hooks";
 import TypeField from "./TypeField";
 import { useTranslation } from "react-i18next";
 

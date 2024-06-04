@@ -1,31 +1,40 @@
 import React from 'react';
 import { createContext, useState } from "react";
 import { Action, ObjectType, defaultBlue } from "../data/constants";
-import { useSelect, useTransform, useUndoRedo } from "../hooks";
+import { useSelect, useTransform, useUndoRedo } from "../context/hooks";
 import { Toast } from "@douyinfe/semi-ui";
 import { useTranslation } from "react-i18next";
 
 type AreasContext = {
-
+  id: number
+  name: string
 };
+
 type AreasContextType = {
-  areas: [],
-  setAreas: React.Dispatch<React.SetStateAction<[]>>,
+  areas: AreasContext[],
+  setAreas: React.Dispatch<React.SetStateAction<AreasContext[]>>,
   updateArea: (id: number, values: []) => void,
   addArea: (id: number, addToHistory: boolean) => void,
   deleteArea: (id: number, addToHistory: boolean) => void
 };
 
-export const AreasContext: React.Context<AreasContextType> = createContext(null);
+const _areas: AreasContext[] = [];
+export const AreasContext: React.Context<AreasContextType> = createContext({
+  areas: _areas,
+  setAreas: v => { },
+  updateArea: (id: number, values: []) => { },
+  addArea: (data: any, addToHistory: boolean) => { },
+  deleteArea: (id: number, addToHistory: boolean) => { }
+});
 
 export default function AreasContextProvider({ children }: { children: React.ReactNode }) {
   const { t } = useTranslation();
   const { transform } = useTransform();
-  const [areas, setAreas] = useState<[]>([]);
+  const [areas, setAreas] = useState<AreasContext[]>([]);
   const { selectedElement, setSelectedElement } = useSelect();
   const { setUndoStack, setRedoStack } = useUndoRedo();
 
-  const addArea = (data, addToHistory = true) => {
+  const addArea = (data: any, addToHistory: boolean = true) => {
     if (data)
       setAreas((prev) => {
         const temp = prev.slice();
@@ -53,7 +62,7 @@ export default function AreasContextProvider({ children }: { children: React.Rea
   function deleteArea(id: number, addToHistory = true): void {
     if (addToHistory) {
       Toast.success(t("area_deleted"));
-      setUndoStack((prev) => [...prev, { action: Action.DELETE, element: ObjectType.AREA, data: areas[id], message: t("delete_area", areas[id].name) }]);
+      setUndoStack((prev) => [...prev, { action: Action.DELETE, element: ObjectType.AREA, data: areas[id], message: t("delete_area", areas[id].name).toString() }]);
       setRedoStack([]);
     }
 

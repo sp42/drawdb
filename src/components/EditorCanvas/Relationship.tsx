@@ -1,7 +1,7 @@
 import React from "react";
 import { Cardinality, ObjectType, Tab } from "../../data/constants";
 import { calcPath } from "../../utils/calcPath";
-import { useTables, useSettings, useLayout, useSelect } from "../../hooks";
+import { useTables, useSettings, useLayout, useSelect } from "../../context/hooks";
 
 export default function Relationship({ data }) {
   const { settings } = useSettings();
@@ -10,7 +10,7 @@ export default function Relationship({ data }) {
   const { selectedElement, setSelectedElement } = useSelect();
   const pathRef = React.useRef();
 
-  let cardinalityStart = "1", cardinalityEnd = "1";
+  let cardinalityStart: string = "1", cardinalityEnd: string = "1";
 
   switch (data.cardinality) {
     case Cardinality.MANY_TO_ONE:
@@ -29,8 +29,8 @@ export default function Relationship({ data }) {
       break;
   }
 
-  let cardinalityStartX = 0, cardinalityEndX = 0, cardinalityStartY = 0, cardinalityEndY = 0;
-  const cardinalityOffset = 28;
+  let cardinalityStartX: number = 0, cardinalityEndX: number = 0, cardinalityStartY: number = 0, cardinalityEndY: number = 0;
+  const cardinalityOffset: number = 28;
 
   if (pathRef.current) {
     const pathLength = pathRef.current.getTotalLength();

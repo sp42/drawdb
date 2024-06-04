@@ -1,7 +1,7 @@
 import React from 'react';
 import { SideSheet as SemiUISideSheet } from "@douyinfe/semi-ui";
 import { SIDESHEET } from "../../../data/constants";
-import { useSettings } from "../../../hooks";
+import { useSettings } from "../../../context/hooks";
 import timeLine from "../../../assets/process.png";
 import timeLineDark from "../../../assets/process_dark.png";
 import todo from "../../../assets/calendar.png";

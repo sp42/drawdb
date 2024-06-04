@@ -18,7 +18,7 @@ import {
   Action,
   ObjectType,
 } from "../../../data/constants";
-import { useTables, useUndoRedo } from "../../../hooks";
+import { useTables, useUndoRedo } from "../../../context/hooks";
 import i18n from "../../../i18n/i18n";
 import { useTranslation } from "react-i18next";
 

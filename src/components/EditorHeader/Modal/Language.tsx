@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from "react-i18next";
-import { useSettings } from "../../../hooks";
+import { useSettings } from "../../../context/hooks";
 import { languages } from "../../../i18n/i18n";
 
 /**

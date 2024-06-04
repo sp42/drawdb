@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from "react-i18next";
-import { useUndoRedo } from "../../../hooks";
+import { useUndoRedo } from "../../../context/hooks";
 import { List } from "@douyinfe/semi-ui";
 
 export default function Timeline() {
