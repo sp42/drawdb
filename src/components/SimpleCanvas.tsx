@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useState, useRef } from "react";
 import {
   Cardinality,
@@ -17,42 +18,22 @@ function Table({ table, grab }) {
     tableColorStripHeight;
 
   return (
-    <foreignObject
-      key={table.name}
-      x={table.x}
-      y={table.y}
-      width={tableWidth}
-      height={height}
+    <foreignObject key={table.name} x={table.x} y={table.y}
+      width={tableWidth} height={height}
       className="drop-shadow-lg rounded-md cursor-move"
-      onMouseDown={grab}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseDown={grab} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}
     >
-      <div
-        className={`border-2 ${
-          isHovered ? "border-dashed border-blue-500" : "border-zinc-300"
-        } select-none rounded-lg w-full bg-zinc-100 text-zinc-800`}
+      <div className={`border-2 ${isHovered ? "border-dashed border-blue-500" : "border-zinc-300"} select-none rounded-lg w-full bg-zinc-100 text-zinc-800`}
       >
-        <div
-          className={`h-[10px] w-full rounded-t-md`}
-          style={{ backgroundColor: table.color }}
-        />
+        <div className={`h-[10px] w-full rounded-t-md`} style={{ backgroundColor: table.color }} />
         <div className="font-bold h-[40px] flex justify-between items-center border-b border-zinc-400 bg-zinc-200 px-3">
           {table.name}
         </div>
         {table.fields.map((e, i) => (
-          <div
-            key={i}
-            className={`${
-              i === table.fields.length - 1 ? "" : "border-b border-gray-400"
-            } h-[36px] px-2 py-1 flex justify-between`}
-            onMouseEnter={() => setHoveredField(i)}
-            onMouseLeave={() => setHoveredField(-1)}
-          >
+          <div key={i} className={`${i === table.fields.length - 1 ? "" : "border-b border-gray-400"} h-[36px] px-2 py-1 flex justify-between`}
+            onMouseEnter={() => setHoveredField(i)} onMouseLeave={() => setHoveredField(-1)}>
             <div className={hoveredField === i ? "text-zinc-500" : ""}>
-              <button
-                className={`w-[9px] h-[9px] bg-[#2f68adcc] rounded-full me-2`}
-              />
+              <button className={`w-[9px] h-[9px] bg-[#2f68adcc] rounded-full me-2`} />
               {e.name}
             </div>
             <div className="text-zinc-400">{e.type}</div>
@@ -152,6 +133,11 @@ function Relationship({ relationship, tables }) {
   );
 }
 
+/**
+ * 渲染简单的 Canvas
+ * @param {*} param0 
+ * @returns 
+ */
 export default function SimpleCanvas({ diagram, zoom }) {
   const [tables, setTables] = useState(diagram.tables);
   const [dragging, setDragging] = useState(-1);
@@ -169,11 +155,7 @@ export default function SimpleCanvas({ diagram, zoom }) {
     if (dragging !== -1) {
       const dx = e.clientX - offset.x;
       const dy = e.clientY - offset.y;
-      setTables((prev) =>
-        prev.map((table, i) =>
-          i === dragging ? { ...table, x: dx, y: dy } : table,
-        ),
-      );
+      setTables((prev) => prev.map((table, i) => i === dragging ? { ...table, x: dx, y: dy } : table,));
     }
   };
 
@@ -183,12 +165,7 @@ export default function SimpleCanvas({ diagram, zoom }) {
   };
 
   return (
-    <svg
-      className="w-full h-full cursor-grab"
-      onMouseUp={releaseTable}
-      onMouseMove={moveTable}
-      onMouseLeave={releaseTable}
-    >
+    <svg className="w-full h-full cursor-grab" onMouseUp={releaseTable} onMouseMove={moveTable} onMouseLeave={releaseTable}>
       <defs>
         <pattern
           id="pattern-circles"

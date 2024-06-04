@@ -1,40 +1,23 @@
+import React from 'react';
 import { useState } from "react";
-import {
-  Checkbox,
-  Input,
-  TextArea,
-  Row,
-  Col,
-  Dropdown,
-  Button,
-  Popover,
-  Tag,
-  List,
-  RadioGroup,
-  Radio,
-} from "@douyinfe/semi-ui";
-import {
-  IconPlus,
-  IconMore,
-  IconDeleteStroked,
-  IconCaretdown,
-} from "@douyinfe/semi-icons";
+import { Checkbox, Input, TextArea, Row, Col, Dropdown, Button, Popover, Tag, List, RadioGroup, Radio } from "@douyinfe/semi-ui";
+import { IconPlus, IconMore, IconDeleteStroked, IconCaretdown } from "@douyinfe/semi-icons";
 import { State } from "../../../data/constants";
 import { useTasks, useSaveState } from "../../../hooks";
 import { useTranslation } from "react-i18next";
 
-const Priority = {
-  NONE: 0,
-  LOW: 1,
-  MEDIUM: 2,
-  HIGH: 3,
+enum Priority {
+  NONE = 0,
+  LOW = 1,
+  MEDIUM = 2,
+  HIGH = 3
 };
 
-const SortOrder = {
-  ORIGINAL: "my_order",
-  PRIORITY: "priority",
-  COMPLETED: "completed",
-  ALPHABETICALLY: "alphabetically",
+enum SortOrder {
+  ORIGINAL = "my_order",
+  PRIORITY = "priority",
+  COMPLETED = "completed",
+  ALPHABETICALLY = "alphabetically"
 };
 
 export default function Todo() {

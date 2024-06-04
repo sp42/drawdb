@@ -1,41 +1,32 @@
+import React from 'react';
 import { createContext, useState } from "react";
 import { Action, ObjectType } from "../data/constants";
 import useUndoRedo from "../hooks/useUndoRedo";
 import { Toast } from "@douyinfe/semi-ui";
 import { useTranslation } from "react-i18next";
 
-export const TypesContext = createContext(null);
+export const TypesContext: React.Context<any> = createContext(null);
 
-export default function TypesContextProvider({ children }) {
+export default function TypesContextProvider({ children }: { children: React.ReactNode }): React.JSX.Element {
   const { t } = useTranslation();
   const [types, setTypes] = useState([]);
   const { setUndoStack, setRedoStack } = useUndoRedo();
 
   const addType = (data, addToHistory = true) => {
-    if (data) {
+    if (data)
       setTypes((prev) => {
         const temp = prev.slice();
         temp.splice(data.id, 0, data);
+
         return temp;
       });
-    } else {
-      setTypes((prev) => [
-        ...prev,
-        {
-          name: `type_${prev.length}`,
-          fields: [],
-          comment: "",
-        },
-      ]);
-    }
+    else
+      setTypes((prev) => [...prev, { name: `type_${prev.length}`, fields: [], comment: "" }]);
+
     if (addToHistory) {
       setUndoStack((prev) => [
         ...prev,
-        {
-          action: Action.ADD,
-          element: ObjectType.TYPE,
-          message: t("add_type"),
-        },
+        { action: Action.ADD, element: ObjectType.TYPE, message: t("add_type") },
       ]);
       setRedoStack([]);
     }
@@ -51,9 +42,7 @@ export default function TypesContextProvider({ children }) {
           element: ObjectType.TYPE,
           id: id,
           data: types[id],
-          message: t("delete_type", {
-            typeName: types[id].name,
-          }),
+          message: t("delete_type", { typeName: types[id].name }),
         },
       ]);
       setRedoStack([]);
@@ -61,22 +50,10 @@ export default function TypesContextProvider({ children }) {
     setTypes((prev) => prev.filter((e, i) => i !== id));
   };
 
-  const updateType = (id, values) => {
-    setTypes((prev) =>
-      prev.map((e, i) => (i === id ? { ...e, ...values } : e)),
-    );
-  };
+  const updateType = (id, values) => { setTypes((prev) => prev.map((e, i) => (i === id ? { ...e, ...values } : e))); };
 
   return (
-    <TypesContext.Provider
-      value={{
-        types,
-        setTypes,
-        addType,
-        updateType,
-        deleteType,
-      }}
-    >
+    <TypesContext.Provider value={{ types, setTypes, addType, updateType, deleteType }}>
       {children}
     </TypesContext.Provider>
   );

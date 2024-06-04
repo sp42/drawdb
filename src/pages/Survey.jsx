@@ -23,6 +23,12 @@ import RichEditor from "../components/LexicalEditor/RichEditor";
 import axios from "axios";
 import { questions } from "../data/surveyQuestions";
 
+/**
+ * 调查
+ * 
+ * @param {} param0 
+ * @returns 
+ */
 function SurveyForm({ theme }) {
   const [editor] = useLexicalComposerContext();
   const [form, setForm] = useState({
@@ -277,9 +283,8 @@ export default function Survey() {
         </div>
       </div>
       <hr
-        className={`${
-          theme === "dark" ? "border-zinc-700" : "border-zinc-300"
-        } my-1`}
+        className={`${theme === "dark" ? "border-zinc-700" : "border-zinc-300"
+          } my-1`}
       />
       <div className="md:w-[90%] w-[74%] mx-auto my-8">
         <Banner
@@ -299,9 +304,8 @@ export default function Survey() {
         </LexicalComposer>
       </div>
       <hr
-        className={`${
-          theme === "dark" ? "border-zinc-700" : "border-zinc-300"
-        } my-1`}
+        className={`${theme === "dark" ? "border-zinc-700" : "border-zinc-300"
+          } my-1`}
       />
       <div className="text-center text-sm py-3">
         &copy; 2024 <strong>drawDB</strong> - All right reserved.

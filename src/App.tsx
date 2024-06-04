@@ -58,7 +58,7 @@ export default function App() {
   );
 }
 
-function ThemedPage({ children }) {
+function ThemedPage({ children }: { children: React.ReactNode }) {
   const { setSettings } = useSettings();
 
   useLayoutEffect(() => {

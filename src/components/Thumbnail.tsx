@@ -1,3 +1,4 @@
+import React from 'react';
 import { tableFieldHeight, tableHeaderHeight } from "../data/constants";
 import { calcPath } from "../utils/calcPath";
 

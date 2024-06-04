@@ -1,9 +1,10 @@
+import React from 'react';
 import { createContext, useState } from "react";
 import { tableWidth } from "../data/constants";
 
-export const SettingsContext = createContext(null);
+export const SettingsContext: React.Context<any> = createContext(null);
 
-export default function SettingsContextProvider({ children }) {
+export default function SettingsContextProvider({ children }: { children: React.ReactNode }): React.JSX.Element {
   const [settings, setSettings] = useState({
     strictMode: false,
     showFieldSummary: true,
@@ -12,7 +13,7 @@ export default function SettingsContextProvider({ children }) {
     autosave: true,
     panning: true,
     showCardinality: true,
-    tableWidth: tableWidth,
+    tableWidth: tableWidth
   });
 
   return (

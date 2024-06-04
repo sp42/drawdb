@@ -1,3 +1,4 @@
+import React from 'react'; 
 import { createContext, useState } from "react";
 import { Action, ObjectType, defaultBlue } from "../data/constants";
 import useUndoRedo from "../hooks/useUndoRedo";
@@ -6,9 +7,9 @@ import useSelect from "../hooks/useSelect";
 import { Toast } from "@douyinfe/semi-ui";
 import { useTranslation } from "react-i18next";
 
-export const AreasContext = createContext(null);
+export const AreasContext : React.Context<any> = createContext(null);
 
-export default function AreasContextProvider({ children }) {
+export default function AreasContextProvider({ children }: { children: React.ReactNode }) {
   const { t } = useTranslation();
   const [areas, setAreas] = useState([]);
   const { transform } = useTransform();
@@ -16,34 +17,27 @@ export default function AreasContextProvider({ children }) {
   const { setUndoStack, setRedoStack } = useUndoRedo();
 
   const addArea = (data, addToHistory = true) => {
-    if (data) {
+    if (data)
       setAreas((prev) => {
         const temp = prev.slice();
         temp.splice(data.id, 0, data);
         return temp.map((t, i) => ({ ...t, id: i }));
       });
-    } else {
+    else
       setAreas((prev) => [
         ...prev,
         {
-          id: prev.length,
-          name: `area_${prev.length}`,
-          x: -transform.pan.x,
-          y: -transform.pan.y,
-          width: 200,
-          height: 200,
+          id: prev.length, name: `area_${prev.length}`,
+          x: -transform.pan.x, y: -transform.pan.y,
+          width: 200, height: 200,
           color: defaultBlue,
-        },
+        }
       ]);
-    }
+
     if (addToHistory) {
       setUndoStack((prev) => [
         ...prev,
-        {
-          action: Action.ADD,
-          element: ObjectType.AREA,
-          message: t("add_area"),
-        },
+        { action: Action.ADD, element: ObjectType.AREA, message: t("add_area") }
       ]);
       setRedoStack([]);
     }
@@ -63,37 +57,27 @@ export default function AreasContextProvider({ children }) {
       ]);
       setRedoStack([]);
     }
-    setAreas((prev) =>
-      prev.filter((e) => e.id !== id).map((e, i) => ({ ...e, id: i })),
-    );
-    if (id === selectedElement.id) {
-      setSelectedElement((prev) => ({
-        ...prev,
-        element: ObjectType.NONE,
-        id: -1,
-        open: false,
-      }));
-    }
+    setAreas((prev) => prev.filter((e) => e.id !== id).map((e, i) => ({ ...e, id: i })));
+
+    if (id === selectedElement.id)
+      setSelectedElement((prev) => ({ ...prev, element: ObjectType.NONE, id: -1, open: false }));
   };
 
   const updateArea = (id, values) => {
-    setAreas((prev) =>
-      prev.map((t) => {
-        if (t.id === id) {
-          return {
-            ...t,
-            ...values,
-          };
-        }
-        return t;
-      }),
+    setAreas((prev) => prev.map((t) => {
+      if (t.id === id)
+        return {
+          ...t,
+          ...values,
+        };
+
+      return t;
+    }),
     );
   };
 
   return (
-    <AreasContext.Provider
-      value={{ areas, setAreas, updateArea, addArea, deleteArea }}
-    >
+    <AreasContext.Provider value={{ areas, setAreas, updateArea, addArea, deleteArea }}>
       {children}
     </AreasContext.Provider>
   );

@@ -1,14 +1,18 @@
+import React from 'react';
 import { Button } from "@douyinfe/semi-ui";
 import { IconCheckboxTick } from "@douyinfe/semi-icons";
 import { tableThemes } from "../data/constants";
 import { useTranslation } from "react-i18next";
 
-export default function ColorPalette({
-  currentColor,
-  onClearColor,
-  onPickColor,
-}) {
+/**
+ * 取色器
+ * 
+ * @param {*} param0 
+ * @returns 
+ */
+export default function ColorPalette({ currentColor, onClearColor, onPickColor }): React.JSX.Element {
   const { t } = useTranslation();
+
   return (
     <div>
       <div className="flex justify-between items-center p-2">
@@ -20,19 +24,9 @@ export default function ColorPalette({
       <hr />
       <div className="py-3 space-y-3">
         <div className="flex flex-wrap w-72 gap-y-2">
-          {tableThemes.map((c) => (
-            <button
-              key={c}
-              style={{ backgroundColor: c }}
-              className="w-10 h-10 rounded-full mx-1"
-              onClick={() => onPickColor(c)}
-            >
-              <IconCheckboxTick
-                className="pt-1"
-                style={{
-                  color: currentColor === c ? "white" : c,
-                }}
-              />
+          {tableThemes.map((c: string) => (
+            <button key={c} style={{ backgroundColor: c }} className="w-10 h-10 rounded-full mx-1" onClick={() => onPickColor(c)} >
+              <IconCheckboxTick className="pt-1" style={{ color: currentColor === c ? "white" : c }} />
             </button>
           ))}
         </div>

@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { IconCrossStroked } from "@douyinfe/semi-icons";
@@ -15,13 +16,17 @@ import github from "../assets/github.png";
 import FadeIn from "../animations/FadeIn";
 import SlideIn from "../animations/SlideIn";
 
-export default function LandingPage() {
+/**
+ * 启动页
+ * 
+ * @returns 
+ */
+export default function LandingPage(){
   const [showSurvey, setShowSurvey] = useState(true);
 
   useEffect(() => {
     document.body.setAttribute("theme-mode", "light");
-    document.title =
-      "drawDB | Online database diagram editor and SQL generator";
+    document.title = "drawDB | Online database diagram editor and SQL generator";
   });
 
   return (

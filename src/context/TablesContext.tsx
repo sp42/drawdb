@@ -1,3 +1,4 @@
+import React from 'react'; 
 import { createContext, useState } from "react";
 import { Action, ObjectType, defaultBlue } from "../data/constants";
 import useTransform from "../hooks/useTransform";
@@ -6,9 +7,9 @@ import useSelect from "../hooks/useSelect";
 import { Toast } from "@douyinfe/semi-ui";
 import { useTranslation } from "react-i18next";
 
-export const TablesContext = createContext(null);
+export const TablesContext : React.Context<any> = createContext(null);
 
-export default function TablesContextProvider({ children }) {
+export default function TablesContextProvider({ children }: { children: React.ReactNode }): React.JSX.Element {
   const { t } = useTranslation();
   const [tables, setTables] = useState([]);
   const [relationships, setRelationships] = useState([]);
@@ -69,9 +70,9 @@ export default function TablesContextProvider({ children }) {
     if (addToHistory) {
       Toast.success(t("table_deleted"));
       const rels = relationships.reduce((acc, r) => {
-        if (r.startTableId === id || r.endTableId === id) {
+        if (r.startTableId === id || r.endTableId === id) 
           acc.push(r);
-        }
+        
         return acc;
       }, []);
       setUndoStack((prev) => [

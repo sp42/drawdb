@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo_light_160.png";
@@ -15,25 +16,18 @@ export default function Navbar() {
             <img src={logo} alt="logo" className="me-2 h-[48px] sm:h-[32px]" />
           </Link>
           <div className="md:hidden flex space-x-6 ml-6">
-            <Link
-              className="text-lg font-semibold hover:text-indigo-700"
+            <Link className="text-lg font-semibold hover:text-indigo-700"
               onClick={() =>
-                document
-                  .getElementById("features")
-                  .scrollIntoView({ behavior: "smooth" })
+                document.getElementById("features").scrollIntoView({ behavior: "smooth" })
               }
             >
               Features
             </Link>
-            <Link
-              to="/editor"
-              className="text-lg font-semibold hover:text-indigo-700"
+            <Link to="/editor" className="text-lg font-semibold hover:text-indigo-700"
             >
               Editor
             </Link>
-            <Link
-              to="/templates"
-              className="text-lg font-semibold hover:text-indigo-700"
+            <Link to="/templates" className="text-lg font-semibold hover:text-indigo-700"
             >
               Templates
             </Link>
@@ -71,9 +65,7 @@ export default function Navbar() {
       </div>
       <hr />
       <SideSheet
-        title={
-          <img src={logo} alt="logo" className="sm:h-[32px] md:h-[42px]" />
-        }
+        title={<img src={logo} alt="logo" className="sm:h-[32px] md:h-[42px]" />}
         visible={openMenu}
         onCancel={() => setOpenMenu(false)}
         width={window.innerWidth}
@@ -81,26 +73,18 @@ export default function Navbar() {
         <Link
           className="hover:bg-zinc-100 block p-3 text-base font-semibold"
           onClick={() => {
-            document
-              .getElementById("features")
-              .scrollIntoView({ behavior: "smooth" });
+            document.getElementById("features").scrollIntoView({ behavior: "smooth" });
             setOpenMenu(false);
           }}
         >
           Features
         </Link>
         <hr />
-        <Link
-          to="/editor"
-          className="hover:bg-zinc-100 block p-3 text-base font-semibold"
-        >
+        <Link to="/editor" className="hover:bg-zinc-100 block p-3 text-base font-semibold">
           Editor
         </Link>
         <hr />
-        <Link
-          to="/templates"
-          className="hover:bg-zinc-100 block p-3 text-base font-semibold"
-        >
+        <Link to="/templates" className="hover:bg-zinc-100 block p-3 text-base font-semibold">
           Templates
         </Link>
         <hr />

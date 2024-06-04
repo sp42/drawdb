@@ -1,9 +1,10 @@
+import React from 'react';
 import { createContext, useState } from "react";
 import { ObjectType, Tab } from "../data/constants";
 
-export const SelectContext = createContext(null);
+export const SelectContext: React.Context<any> = createContext(null);
 
-export default function SelectContextProvider({ children }) {
+export default function SelectContextProvider({ children }: { children: React.ReactNode }): React.JSX.Element {
   const [selectedElement, setSelectedElement] = useState({
     element: ObjectType.NONE,
     id: -1,
