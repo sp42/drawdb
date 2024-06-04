@@ -13,15 +13,14 @@ import mariadb_icon from "../assets/mariadb.png";
 import sql_server_icon from "../assets/sql-server.png";
 import discord from "../assets/discord.png";
 import github from "../assets/github.png";
-import FadeIn from "../animations/FadeIn";
-import SlideIn from "../animations/SlideIn";
+import { FadeIn, SlideIn } from "../utils/animations";
 
 /**
  * 启动页
  * 
  * @returns 
  */
-export default function LandingPage(){
+export default function LandingPage() {
   const [showSurvey, setShowSurvey] = useState(true);
 
   useEffect(() => {
@@ -35,10 +34,10 @@ export default function LandingPage(){
         {showSurvey && (
           <div className="text-white font-semibold py-1.5 px-4 text-sm text-center bg-gradient-to-r from-slate-700 from-10% via-slate-500 to-slate-700">
             <Link to="/survey" className="hover:underline">
-              Help us improve! Share your feedback.
+              Help us improve! Share your feedback99.
             </Link>
             <div className="float-right">
-              <button onClick={() => setShowSurvey(false)}>
+              <button onClick={() => { setShowSurvey(false) }}>
                 <IconCrossStroked size="small" />
               </button>
             </div>

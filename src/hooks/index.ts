@@ -1,11 +1,57 @@
-export { default as useAreas } from "./useAreas";
-export { default as useLayout } from "./useLayout";
-export { default as useNotes } from "./useNotes";
-export { default as useSaveState } from "./useSaveState";
-export { default as useSelect } from "./useSelect";
-export { default as useSettings } from "./useSettings";
-export { default as useTables } from "./useTables";
-export { default as useTasks } from "./useTasks";
-export { default as useTransform } from "./useTransform";
-export { default as useTypes } from "./useTypes";
-export { default as useUndoRedo } from "./useUndoRedo";
+import { useContext } from "react";
+import { AreasContext } from "../context/AreasContext";
+import { LayoutContext } from "../context/LayoutContext";
+import { SaveStateContext } from "../context/SaveStateContext";
+import { NotesContext } from "../context/NotesContext";
+import { SelectContext } from "../context/SelectContext";
+import { SettingsContext } from "../context/SettingsContext";
+import { TransformContext } from "../context/TransformContext";
+import { TypesContext } from "../context/TypesContext";
+import { UndoRedoContext } from "../context/UndoRedoContext";
+import { TasksContext } from "../context/TasksContext";
+import { TablesContext } from "../context/TablesContext";
+
+export function useAreas() {
+    return useContext(AreasContext);
+}
+
+export function useLayout() {
+    return useContext(LayoutContext);
+}
+
+export function useNotes() {
+    return useContext(NotesContext);
+}
+
+export function useSaveState() {
+    return useContext(SaveStateContext);
+}
+
+export function useSelect() {
+    return useContext(SelectContext);
+}
+
+export function useSettings() {
+    return useContext(SettingsContext);
+}
+
+export function useTables() {
+    return useContext(TablesContext);
+}
+
+export function useTasks() {
+    return useContext(TasksContext);
+}
+
+export function useTransform() {
+    return useContext(TransformContext);
+}
+
+export function useTypes() {
+    return useContext(TypesContext);
+}
+
+export function useUndoRedo() {
+    return useContext(UndoRedoContext);
+}
+

@@ -9,7 +9,13 @@ import Timeline from "./Timeline";
 import Todo from "./Todo";
 import { useTranslation } from "react-i18next";
 
-export default function Sidesheet({ type, onClose }) {
+/**
+ * 侧边栏
+ * 
+ * @param param0 
+ * @returns 
+ */
+export default function Sidesheet({ type, onClose }: { type: number, onClose: any }) {
   const { t } = useTranslation();
   const { settings } = useSettings();
 
@@ -45,10 +51,7 @@ export default function Sidesheet({ type, onClose }) {
     }
   }
 
-  return (
-    <SemiUISideSheet visible={type !== SIDESHEET.NONE} onCancel={onClose} width={340} title={getTitle(type)}
-      style={{ paddingBottom: "16px" }} bodyStyle={{ padding: "0px" }}>
-      {getContent(type)}
-    </SemiUISideSheet>
-  );
+  return <SemiUISideSheet visible={type !== SIDESHEET.NONE} onCancel={onClose} width={340} title={getTitle(type)} style={{ paddingBottom: "16px" }} bodyStyle={{ padding: "0px" }}>
+    {getContent(type)}
+  </SemiUISideSheet>;
 }

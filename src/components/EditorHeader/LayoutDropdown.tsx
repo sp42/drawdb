@@ -13,7 +13,15 @@ import { useTranslation } from "react-i18next";
 export default function LayoutDropdown(): React.JSX.Element {
   const { layout, setLayout } = useLayout();
   const { t } = useTranslation();
-  const invertLayout = (component) => setLayout((prev) => ({ ...prev, [component]: !prev[component] }));
+
+  function invertLayout(component: string): void {
+    setLayout((prev) => {
+      // @ts-ignore
+      prev[component] = !prev[component];
+      
+      return { ...prev };
+    });
+  }
 
   return (
     <Dropdown position="bottomLeft" style={{ width: "180px" }} trigger="click"

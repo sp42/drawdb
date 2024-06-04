@@ -1,7 +1,7 @@
 import React from 'react';
 import { createContext, useState } from "react";
 import { Action, ObjectType } from "../data/constants";
-import useUndoRedo from "../hooks/useUndoRedo";
+import { useUndoRedo } from "../hooks";
 import { Toast } from "@douyinfe/semi-ui";
 import { useTranslation } from "react-i18next";
 
@@ -52,9 +52,7 @@ export default function TypesContextProvider({ children }: { children: React.Rea
 
   const updateType = (id, values) => { setTypes((prev) => prev.map((e, i) => (i === id ? { ...e, ...values } : e))); };
 
-  return (
-    <TypesContext.Provider value={{ types, setTypes, addType, updateType, deleteType }}>
-      {children}
-    </TypesContext.Provider>
-  );
+  return <TypesContext.Provider value={{ types, setTypes, addType, updateType, deleteType }}>
+    {children}
+  </TypesContext.Provider>;
 }

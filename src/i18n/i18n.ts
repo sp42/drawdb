@@ -13,7 +13,7 @@ import { hi, hindi } from "./locales/hi";
 import { uk, ukrainian } from "./locales/uk";
 import { ru, russian } from "./locales/ru";
 
-export const languages = [
+export const languages: any[] = [
   english,
   chinese,
   danish,
@@ -27,28 +27,23 @@ export const languages = [
   russian,
 ].sort((a, b) => a.name.localeCompare(b.name));
 
-i18n
-  .use(LanguageDetector)
-  .use(initReactI18next)
-  .init({
-    fallbackLng: "en",
-    debug: false,
-    interpolation: {
-      escapeValue: false,
-    },
-    resources: {
-      en,
-      zh,
-      es,
-      da,
-      de,
-      vi,
-      pt,
-      fa,
-      hi,
-      uk,
-      ru,
-    },
-  });
+i18n.use(LanguageDetector).use(initReactI18next).init({
+  fallbackLng: "en",
+  debug: false,
+  interpolation: { escapeValue: false },
+  resources: {
+    en,
+    zh,
+    es,
+    da,
+    de,
+    vi,
+    pt,
+    fa,
+    hi,
+    uk,
+    ru,
+  },
+});
 
 export default i18n;

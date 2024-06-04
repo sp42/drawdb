@@ -10,9 +10,8 @@ export default function Shortcuts() {
   const [theme, setTheme] = useState("");
   const [value, setValue] = useState("");
   const [filteredResult, setFilteredResult] = useState(
-    shortcuts.map((t) => {
-      return t.shortcut;
-    })
+    shortcuts.map((t) => t.shortcut
+    )
   );
 
   const handleStringSearch = (value) => {
@@ -87,7 +86,7 @@ export default function Shortcuts() {
                 <div className="p-3 popover-theme">No shortcuts found</div>
               }
               onChange={(v) => setValue(v)}
-              onSelect={() => {}}
+              onSelect={() => { }}
             ></AutoComplete>
           </div>
         </div>
@@ -107,7 +106,7 @@ export default function Shortcuts() {
             <div className="p-3 popover-theme">No shortcuts found</div>
           }
           onChange={(v) => setValue(v)}
-          onSelect={() => {}}
+          onSelect={() => { }}
         ></AutoComplete>
       </div>
       <div className="grid sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 my-6 mx-20 sm:mx-6 gap-5 select-none">
@@ -120,9 +119,8 @@ export default function Shortcuts() {
             {s.description && (
               <>
                 <hr
-                  className={`${
-                    theme === "dark" ? "border-zinc-600" : "border-zinc-400"
-                  } my-2`}
+                  className={`${theme === "dark" ? "border-zinc-600" : "border-zinc-400"
+                    } my-2`}
                 />
                 <div className="sm:text-xs text-sm">{s.description}</div>
               </>
@@ -131,9 +129,8 @@ export default function Shortcuts() {
         ))}
       </div>
       <hr
-        className={`${
-          theme === "dark" ? "border-zinc-700" : "border-zinc-300"
-        } my-1`}
+        className={`${theme === "dark" ? "border-zinc-700" : "border-zinc-300"
+          } my-1`}
       />
       <div className="text-center text-sm py-3">
         &copy; 2024 <strong>drawDB</strong> - All right reserved.

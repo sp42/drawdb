@@ -12,24 +12,15 @@ export default function NoteInfo({ data, nid }) {
   const { t } = useTranslation();
 
   return (
-    <Collapse.Panel
-      header={
-        <div className="overflow-hidden text-ellipsis whitespace-nowrap">
-          {data.title}
-        </div>
-      }
-      itemKey={`${data.id}`}
-      id={`scroll_note_${data.id}`}
+    <Collapse.Panel header={<div className="overflow-hidden text-ellipsis whitespace-nowrap">{data.title}</div>}
+      itemKey={`${data.id}`} id={`scroll_note_${data.id}`}
     >
       <div className="flex items-center mb-2">
         <div className="font-semibold me-2 break-keep">{t("title")}:</div>
-        <Input
-          value={data.title}
-          placeholder={t("title")}
-          onChange={(value) => updateNote(data.id, { title: value })}
-          onFocus={(e) => setEditField({ title: e.target.value })}
+        <Input value={data.title} placeholder={t("title")} onChange={(value) => updateNote(data.id, { title: value })} onFocus={(e) => setEditField({ title: e.target.value })}
           onBlur={(e) => {
             if (e.target.value === editField.title) return;
+
             setUndoStack((prev) => [
               ...prev,
               {
@@ -38,10 +29,7 @@ export default function NoteInfo({ data, nid }) {
                 nid: data.id,
                 undo: editField,
                 redo: { title: e.target.value },
-                message: t("edit_note", {
-                  noteTitle: e.target.value,
-                  extra: "[title]",
-                }),
+                message: t("edit_note", { noteTitle: e.target.value, extra: "[title]" })
               },
             ]);
             setRedoStack([]);
@@ -49,26 +37,21 @@ export default function NoteInfo({ data, nid }) {
         />
       </div>
       <div className="flex justify-between align-top">
-        <TextArea
-          placeholder={t("content")}
-          value={data.content}
-          autosize
-          onChange={(value) => {
-            const textarea = document.getElementById(`note_${data.id}`);
-            textarea.style.height = "0";
-            textarea.style.height = textarea.scrollHeight + "px";
-            const newHeight = textarea.scrollHeight + 16 + 20 + 4;
-            updateNote(data.id, { height: newHeight, content: value });
-          }}
-          onFocus={(e) =>
-            setEditField({ content: e.target.value, height: data.height })
-          }
+        <TextArea placeholder={t("content")} value={data.content} autosize onChange={(value) => {
+          const textarea = document.getElementById(`note_${data.id}`);
+          textarea.style.height = "0";
+          textarea.style.height = textarea.scrollHeight + "px";
+          const newHeight = textarea.scrollHeight + 16 + 20 + 4;
+          updateNote(data.id, { height: newHeight, content: value });
+        }}
+          onFocus={(e) => setEditField({ content: e.target.value, height: data.height })}
           onBlur={(e) => {
             if (e.target.value === editField.content) return;
             const textarea = document.getElementById(`note_${data.id}`);
             textarea.style.height = "0";
             textarea.style.height = textarea.scrollHeight + "px";
             const newHeight = textarea.scrollHeight + 16 + 20 + 4;
+
             setUndoStack((prev) => [
               ...prev,
               {
@@ -78,8 +61,7 @@ export default function NoteInfo({ data, nid }) {
                 undo: editField,
                 redo: { content: e.target.value, height: newHeight },
                 message: t("edit_note", {
-                  noteTitle: e.target.value,
-                  extra: "[content]",
+                  noteTitle: e.target.value, extra: "[content]"
                 }),
               },
             ]);
@@ -95,10 +77,7 @@ export default function NoteInfo({ data, nid }) {
                 <hr />
                 <div className="py-3">
                   {noteThemes.map((c) => (
-                    <button
-                      key={c}
-                      style={{ backgroundColor: c }}
-                      className="p-3 rounded-full mx-1"
+                    <button key={c} style={{ backgroundColor: c }} className="p-3 rounded-full mx-1"
                       onClick={() => {
                         setUndoStack((prev) => [
                           ...prev,
@@ -108,40 +87,25 @@ export default function NoteInfo({ data, nid }) {
                             nid: nid,
                             undo: { color: data.color },
                             redo: { color: c },
-                            message: t("edit_note", {
-                              noteTitle: data.title,
-                              extra: "[color]",
-                            }),
+                            message: t("edit_note", { noteTitle: data.title, extra: "[color]" }),
                           },
                         ]);
                         setRedoStack([]);
                         updateNote(nid, { color: c });
                       }}
                     >
-                      {data.color === c ? (
-                        <IconCheckboxTick style={{ color: "white" }} />
-                      ) : (
-                        <IconCheckboxTick style={{ color: c }} />
-                      )}
+                      {data.color === c ? (<IconCheckboxTick style={{ color: "white" }} />) : (<IconCheckboxTick style={{ color: c }} />)}
                     </button>
                   ))}
                 </div>
               </div>
             }
-            trigger="click"
-            position="rightTop"
-            showArrow
+            trigger="click" position="rightTop" showArrow
           >
-            <div
-              className="h-[32px] w-[32px] rounded mb-2"
-              style={{ backgroundColor: data.color }}
+            <div className="h-[32px] w-[32px] rounded mb-2" style={{ backgroundColor: data.color }}
             />
           </Popover>
-          <Button
-            icon={<IconDeleteStroked />}
-            type="danger"
-            onClick={() => deleteNote(nid, true)}
-          />
+          <Button icon={<IconDeleteStroked />} type="danger" onClick={() => deleteNote(nid, true)} />
         </div>
       </div>
     </Collapse.Panel>

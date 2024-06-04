@@ -1,20 +1,17 @@
-import {
-  Cardinality,
-  tableColorStripHeight,
-  tableFieldHeight,
-  tableHeaderHeight,
-} from "../data/constants";
+import { Cardinality, tableColorStripHeight, tableFieldHeight, tableHeaderHeight } from "../data/constants";
 
 function buildSQLFromAST(ast) {
   if (ast.type === "binary_expr") {
     const leftSQL = buildSQLFromAST(ast.left);
     const rightSQL = buildSQLFromAST(ast.right);
+
     return `${leftSQL} ${ast.operator} ${rightSQL}`;
   }
 
   if (ast.type === "function") {
     let expr = "";
     expr = ast.name;
+
     if (ast.args) {
       expr +=
         "(" +

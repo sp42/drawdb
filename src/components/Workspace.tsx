@@ -5,18 +5,7 @@ import Canvas from "./EditorCanvas/Canvas";
 import SidePanel from "./EditorSidePanel/SidePanel";
 import { State } from "../data/constants";
 import { db } from "../data/db";
-import {
-  useLayout,
-  useSettings,
-  useTransform,
-  useTables,
-  useUndoRedo,
-  useAreas,
-  useNotes,
-  useTypes,
-  useTasks,
-  useSaveState,
-} from "../hooks";
+import { useLayout, useSettings, useTransform, useTables, useUndoRedo, useAreas, useNotes, useTypes, useTasks, useSaveState } from "../hooks";
 import FloatingControls from "./FloatingControls";
 
 /**
@@ -53,54 +42,34 @@ export default function WorkSpace() {
     const saveAsDiagram: boolean = window.name === "" || op === "d" || op === "lt";
 
     if (saveAsDiagram) {
-      if ((id === 0 && window.name === "") || window.name.split(" ")[0] === "lt") {
-        await db.diagrams
-          .add({
-            name: title, lastModified: new Date(), tables: tables, references: relationships,
-            types: types, notes: notes,
-            areas: areas, todos: tasks,
-            pan: transform.pan, zoom: transform.zoom
-          })
-          .then((id) => {
-            setId(id);
-            window.name = `d ${id}`;
-            setSaveState(State.SAVED);
-            setLastSaved(new Date().toLocaleString());
-          });
-      } else {
-        await db.diagrams
-          .update(id, {
-            name: title, lastModified: new Date(), tables: tables, references: relationships,
-            types: types, notes: notes, areas: areas, todos: tasks,
-            pan: transform.pan, zoom: transform.zoom,
-          })
+      if ((id === 0 && window.name === "") || window.name.split(" ")[0] === "lt")
+        await db.diagrams.add({
+          name: title, lastModified: new Date(), tables: tables, references: relationships,
+          types: types, notes: notes,
+          areas: areas, todos: tasks,
+          pan: transform.pan, zoom: transform.zoom
+        }).then((id) => {
+          setId(id);
+          window.name = `d ${id}`;
+          setSaveState(State.SAVED);
+          setLastSaved(new Date().toLocaleString());
+        });
+      else
+        await db.diagrams.update(id, { name: title, lastModified: new Date(), tables: tables, references: relationships, types: types, notes: notes, areas: areas, todos: tasks, pan: transform.pan, zoom: transform.zoom })
           .then(() => {
             setSaveState(State.SAVED);
             setLastSaved(new Date().toLocaleString());
           });
-      }
-    } else {
-      await db.templates
-        .update(id, {
-          title: title, tables: tables, relationships: relationships,
-          types: types, notes: notes,
-          subjectAreas: areas, todos: tasks,
-          pan: transform.pan, zoom: transform.zoom,
-        })
+
+    } else
+      await db.templates.update(id, { title: title, tables: tables, relationships: relationships, types: types, notes: notes, subjectAreas: areas, todos: tasks, pan: transform.pan, zoom: transform.zoom })
         .then(() => {
           setSaveState(State.SAVED);
           setLastSaved(new Date().toLocaleString());
         })
-        .catch(() => {
-          setSaveState(State.ERROR);
-        });
-    }
-  }, [
-    tables, relationships,
-    notes, areas, types,
-    title, id,
-    tasks, transform, setSaveState
-  ]);
+        .catch(() => setSaveState(State.ERROR)
+        );
+  }, [tables, relationships, notes, areas, types, title, id, tasks, transform, setSaveState]);
 
   const load = useCallback(async () => {
     const loadLatestDiagram = async () => {
@@ -118,10 +87,7 @@ export default function WorkSpace() {
           window.name = `d ${d.id}`;
         } else
           window.name = "";
-      })
-        .catch((error) => {
-          console.log(error);
-        });
+      }).catch((error) => console.log(error));
     };
 
     const loadDiagram = async (id) => {
@@ -141,10 +107,7 @@ export default function WorkSpace() {
           window.name = `d ${diagram.id}`;
         } else
           window.name = "";
-      })
-        .catch((error) => {
-          console.log(error);
-        });
+      }).catch((error) => console.log(error));
     };
 
     const loadTemplate = async (id) => {
@@ -158,17 +121,11 @@ export default function WorkSpace() {
           setAreas(diagram.subjectAreas);
           setTasks(diagram.todos ?? []);
           setNotes(diagram.notes);
-          setTransform({
-            zoom: 1,
-            pan: { x: 0, y: 0 },
-          });
+          setTransform({ zoom: 1, pan: { x: 0, y: 0 } });
           setUndoStack([]);
           setRedoStack([]);
         }
-      })
-        .catch((error) => {
-          console.log(error);
-        });
+      }).catch((error) => console.log(error));
     };
 
     if (window.name === "")
@@ -192,31 +149,14 @@ export default function WorkSpace() {
           break;
       }
     }
-  }, [
-    setTransform,
-    setRedoStack,
-    setUndoStack,
-    setRelationships,
-    setTables,
-    setAreas,
-    setNotes,
-    setTypes,
-    setTasks,
-  ]);
+  }, [setTransform, setRedoStack, setUndoStack, setRelationships, setTables, setAreas, setNotes, setTypes, setTasks]);
 
   useEffect(() => {
-    if (
-      tables?.length === 0 &&
-      areas?.length === 0 &&
-      notes?.length === 0 &&
-      types?.length === 0 &&
-      tasks?.length === 0
-    )
+    if (tables?.length === 0 && areas?.length === 0 && notes?.length === 0 && types?.length === 0 && tasks?.length === 0)
       return;
 
     if (settings.autosave)
       setSaveState(State.SAVING);
-
   }, [
     undoStack, redoStack, settings.autosave, tables?.length, areas?.length, notes?.length,
     types?.length, relationships?.length, tasks?.length, transform.zoom, title, setSaveState
@@ -233,23 +173,21 @@ export default function WorkSpace() {
     load();
   }, [load]);
 
-  return (
-    <div className="h-[100vh] flex flex-col overflow-hidden theme">
-      <ControlPanel diagramId={id} setDiagramId={setId} title={title} setTitle={setTitle} lastSaved={lastSaved} setLastSaved={setLastSaved} />
+  return <div className="h-[100vh] flex flex-col overflow-hidden theme">
+    <ControlPanel diagramId={id} setDiagramId={setId} title={title} setTitle={setTitle} lastSaved={lastSaved} setLastSaved={setLastSaved} />
 
-      <div className="flex h-full overflow-y-auto" onMouseUp={() => setResize(false)} onMouseLeave={() => setResize(false)} onMouseMove={handleResize}>
-        {layout.sidebar && (<SidePanel resize={resize} setResize={setResize} width={width} />)}
-        <div className="relative w-full h-full overflow-hidden">
+    <div className="flex h-full overflow-y-auto" onMouseUp={() => setResize(false)} onMouseLeave={() => setResize(false)} onMouseMove={handleResize}>
+      {layout.sidebar && (<SidePanel resize={resize} setResize={setResize} width={width} />)}
+      <div className="relative w-full h-full overflow-hidden">
 
-          <Canvas saveState={saveState} setSaveState={setSaveState} />
+        <Canvas saveState={saveState} setSaveState={setSaveState} />
 
-          {!(layout.sidebar || layout.toolbar || layout.header) && (
-            <div className="fixed right-5 bottom-4">
-              <FloatingControls />
-            </div>
-          )}
-        </div>
+        {!(layout.sidebar || layout.toolbar || layout.header) && (
+          <div className="fixed right-5 bottom-4">
+            <FloatingControls />
+          </div>
+        )}
       </div>
     </div>
-  );
+  </div>;
 }

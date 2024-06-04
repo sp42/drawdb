@@ -1,3 +1,4 @@
+import Dexie from "dexie";
 import { template1 } from "../templates/template1";
 import { template2 } from "../templates/template2";
 import { template3 } from "../templates/template3";
@@ -14,4 +15,8 @@ const templateSeeds = [
   template6,
 ];
 
-export { templateSeeds };
+export const db: Dexie = new Dexie("drawDB");
+
+db.version(5).stores({ diagrams: "++id, lastModified", templates: "++id, custom" });
+//@ts-ignore
+db.on("populate", (transaction) => transaction.templates.bulkAdd(templateSeeds).catch((e) => console.log(e)));

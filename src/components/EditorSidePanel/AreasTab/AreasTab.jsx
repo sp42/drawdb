@@ -20,16 +20,10 @@ export default function AreasTab() {
           </Button>
         </div>
       </div>
-      {areas.length <= 0 ? (
-        <Empty
-          title={t("no_subject_areas")}
-          text={t("no_subject_areas_text")}
-        />
+      {areas.length <= 0 ? (<Empty title={t("no_subject_areas")} text={t("no_subject_areas_text")} />
       ) : (
         <div className="p-2">
-          {areas.map((a, i) => (
-            <AreaInfo data={a} key={"area_" + i} i={i} />
-          ))}
+          {areas.map((a, i) => (<AreaInfo data={a} key={"area_" + i} i={i} />))}
         </div>
       )}
     </div>

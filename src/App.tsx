@@ -2,14 +2,11 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useLayoutEffect } from "react";
 import Editor from "./pages/Editor";
-import Survey from "./pages/Survey";
-import BugReport from "./pages/BugReport";
 import Shortcuts from "./pages/Shortcuts";
 import Templates from "./pages/Templates";
 import LandingPage from "./pages/LandingPage";
 import SettingsContextProvider from "./context/SettingsContext";
-import useSettings from "./hooks/useSettings";
-import NotFound from "./pages/NotFound";
+import { useSettings } from "./hooks";
 
 export default function App() {
   return (
@@ -18,40 +15,27 @@ export default function App() {
         <RestoreScroll />
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route
-            path="/editor"
-            element={
-              <ThemedPage>
-                <Editor />
-              </ThemedPage>
-            }
+          <Route path="/editor" element={
+            <ThemedPage>
+              <Editor />
+            </ThemedPage>
+          }
           />
-          <Route
-            path="/survey"
-            element={
-              <ThemedPage>
-                <Survey />
-              </ThemedPage>
-            }
+          <Route path="/shortcuts" element={
+            <ThemedPage>
+              <Shortcuts />
+            </ThemedPage>
+          }
           />
-          <Route
-            path="/shortcuts"
-            element={
-              <ThemedPage>
-                <Shortcuts />
-              </ThemedPage>
-            }
-          />
-          <Route
-            path="/bug-report"
-            element={
-              <ThemedPage>
-                <BugReport />
-              </ThemedPage>
-            }
-          />
+
           <Route path="/templates" element={<Templates />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path="*" element={
+            <div className="p-3 space-y-2">
+              Not found.
+              <p> to create a relationship hold the blue dot of a field and drag it towards the field you want to connect it to
+              </p>
+            </div>
+          } />
         </Routes>
       </BrowserRouter>
     </SettingsContextProvider>
@@ -84,8 +68,7 @@ function ThemedPage({ children }: { children: React.ReactNode }) {
 
 function RestoreScroll() {
   const location = useLocation();
-  useLayoutEffect(() => {
-    window.scroll(0, 0);
-  }, [location.pathname]);
+  useLayoutEffect(() => window.scroll(0, 0), [location.pathname]);
+
   return null;
 }

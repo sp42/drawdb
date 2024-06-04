@@ -14,15 +14,11 @@ export default function Issues() {
 
   useEffect(() => {
     const findIssues = async () => {
-      const newIssues = getIssues({
-        tables: tables,
-        relationships: relationships,
-        types: types,
-      });
+      const newIssues = getIssues({ tables: tables, relationships: relationships, types: types });
 
-      if (!arrayIsEqual(newIssues, issues)) {
+      if (!arrayIsEqual(newIssues, issues))
         setIssues(newIssues);
-      }
+
     };
 
     findIssues();
@@ -32,8 +28,7 @@ export default function Issues() {
     <Collapse keepDOM lazyRender style={{ width: "100%" }}>
       <Collapse.Panel
         header={
-          <Badge
-            type={issues.length > 0 ? "danger" : "primary"}
+          <Badge            type={issues.length > 0 ? "danger" : "primary"}
             count={settings.strictMode ? null : issues.length}
             overflowCount={99}
             className="mt-1"

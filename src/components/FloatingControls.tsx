@@ -16,7 +16,7 @@ export default function FloatingControls(): React.JSX.Element {
           <i className="bi bi-dash-lg" />
         </button>
         <Divider align="center" layout="vertical" />
-        <div className="px-3 py-2">{parseInt(transform.zoom * 100)}%</div>
+        <div className="px-3 py-2">{transform.zoom * 100}%</div>
         <Divider align="center" layout="vertical" />
 
         <button className="px-3 py-2" onClick={() => setTransform((prev) => ({ ...prev, zoom: prev.zoom * 1.2 }))}>

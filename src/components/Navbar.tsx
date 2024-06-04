@@ -16,19 +16,13 @@ export default function Navbar() {
             <img src={logo} alt="logo" className="me-2 h-[48px] sm:h-[32px]" />
           </Link>
           <div className="md:hidden flex space-x-6 ml-6">
-            <Link className="text-lg font-semibold hover:text-indigo-700"
-              onClick={() =>
-                document.getElementById("features").scrollIntoView({ behavior: "smooth" })
-              }
-            >
+            <Link className="text-lg font-semibold hover:text-indigo-700" onClick={() => document.getElementById("features").scrollIntoView({ behavior: "smooth" })}>
               Features
             </Link>
-            <Link to="/editor" className="text-lg font-semibold hover:text-indigo-700"
-            >
+            <Link to="/editor" className="text-lg font-semibold hover:text-indigo-700">
               Editor
             </Link>
-            <Link to="/templates" className="text-lg font-semibold hover:text-indigo-700"
-            >
+            <Link to="/templates" className="text-lg font-semibold hover:text-indigo-700"    >
               Templates
             </Link>
           </div>
@@ -64,18 +58,11 @@ export default function Navbar() {
         </button>
       </div>
       <hr />
-      <SideSheet
-        title={<img src={logo} alt="logo" className="sm:h-[32px] md:h-[42px]" />}
-        visible={openMenu}
-        onCancel={() => setOpenMenu(false)}
-        width={window.innerWidth}
-      >
-        <Link
-          className="hover:bg-zinc-100 block p-3 text-base font-semibold"
-          onClick={() => {
-            document.getElementById("features").scrollIntoView({ behavior: "smooth" });
-            setOpenMenu(false);
-          }}
+      <SideSheet title={<img src={logo} alt="logo" className="sm:h-[32px] md:h-[42px]" />} visible={openMenu} onCancel={() => setOpenMenu(false)} width={window.innerWidth}      >
+        <Link className="hover:bg-zinc-100 block p-3 text-base font-semibold" onClick={() => {
+          document.getElementById("features").scrollIntoView({ behavior: "smooth" });
+          setOpenMenu(false);
+        }}
         >
           Features
         </Link>

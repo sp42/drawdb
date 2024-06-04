@@ -9,17 +9,13 @@ import logo_light from "../assets/logo_light_160.png";
 import template_screenshot from "../assets/template_screenshot.png";
 
 export default function Templates() {
-  const defaultTemplates = useLiveQuery(() =>
-    db.templates.where({ custom: 0 }).toArray()
+  const defaultTemplates = useLiveQuery(() => db.templates.where({ custom: 0 }).toArray()
   );
 
-  const customTemplates = useLiveQuery(() =>
-    db.templates.where({ custom: 1 }).toArray()
+  const customTemplates = useLiveQuery(() => db.templates.where({ custom: 1 }).toArray()
   );
 
-  const deleteTemplate = async (id) => {
-    await db.templates.delete(id);
-  };
+  const deleteTemplate = async (id) => await db.templates.delete(id);
 
   const editTemplate = (id) => {
     const newWindow = window.open("/editor", "_blank");
@@ -31,9 +27,7 @@ export default function Templates() {
     newWindow.name = "lt " + id;
   };
 
-  useEffect(() => {
-    document.title = "Templates | drawDB";
-  }, []);
+  useEffect(() => document.title = "Templates | drawDB", []);
 
   return (
     <div>
@@ -64,33 +58,22 @@ export default function Templates() {
             </div>
           </div>
           <Tabs>
-            <TabPane
-              tab={<span className="mx-2">Default templates</span>}
-              itemKey="1"
+            <TabPane tab={<span className="mx-2">Default templates</span>} itemKey="1"
             >
               <div className="grid xl:grid-cols-3 grid-cols-2 sm:grid-cols-1 gap-10 my-6">
                 {defaultTemplates?.map((t, i) => (
-                  <div
-                    key={i}
-                    className="bg-gray-100 hover:translate-y-[-6px] transition-all duration-300 border rounded-md"
+                  <div key={i} className="bg-gray-100 hover:translate-y-[-6px] transition-all duration-300 border rounded-md"
                   >
                     <div className="h-48">
-                      <Thumbnail
-                        diagram={t}
-                        i={"1" + i}
-                        zoom={0.3}
-                        theme="light"
-                      />
+                      <Thumbnail diagram={t} i={"1" + i} zoom={0.3} theme="light" />
                     </div>
                     <div className="px-4 py-3">
                       <div className="flex justify-between">
                         <div className="text-lg font-bold text-zinc-700">
                           {t.title}
                         </div>
-                        <button
-                          className="border rounded px-2 py-1 bg-white hover:bg-gray-200 transition-all duration-300"
-                          onClick={() => forkTemplate(t.id)}
-                        >
+                        <button className="border rounded px-2 py-1 bg-white hover:bg-gray-200 transition-all duration-300"
+                          onClick={() => forkTemplate(t.id)}                        >
                           <i className="fa-solid fa-code-fork"></i>
                         </button>
                       </div>
@@ -100,16 +83,12 @@ export default function Templates() {
                 ))}
               </div>
             </TabPane>
-            <TabPane
-              tab={<span className="mx-2">Your templates</span>}
-              itemKey="2"
+            <TabPane tab={<span className="mx-2">Your templates</span>} itemKey="2"
             >
               {customTemplates?.length > 0 ? (
                 <div className="grid xl:grid-cols-3 grid-cols-2 sm:grid-cols-1 gap-8 my-6">
                   {customTemplates?.map((c, i) => (
-                    <div
-                      key={i}
-                      className="bg-gray-100 hover:translate-y-[-6px] transition-all duration-300 border rounded-md"
+                    <div key={i} className="bg-gray-100 hover:translate-y-[-6px] transition-all duration-300 border rounded-md"
                     >
                       <div className="h-48">
                         <Thumbnail diagram={c} i={"2" + i} zoom={0.3} />
@@ -151,18 +130,10 @@ export default function Templates() {
                 </div>
               ) : (
                 <div className="py-5">
-                  <Banner
-                    fullMode={false}
-                    type="info"
-                    bordered
-                    icon={null}
-                    closeIcon={null}
-                    description={<div>You have no custom templates saved.</div>}
-                  />
+                  <Banner fullMode={false} type="info" bordered
+                    icon={null} closeIcon={null} description={<div>You have no custom templates saved.</div>} />
                   <div className="grid grid-cols-5 sm:grid-cols-1 gap-4 place-content-center my-4">
-                    <img
-                      src={template_screenshot}
-                      className="border col-span-3 sm:cols-span-1 rounded"
+                    <img src={template_screenshot} className="border col-span-3 sm:cols-span-1 rounded"
                     />
                     <div className="col-span-2 sm:cols-span-1">
                       <div className="text-xl font-bold my-4">

@@ -49,12 +49,12 @@ export const noteThemes: string[] = [
   "#e7c7ff"
 ];
 
-export const defaultBlue = "#175e7a";
-export const defaultNoteTheme = "#fcf7ac";
-export const tableHeaderHeight = 50;
-export const tableWidth = 200;
-export const tableFieldHeight = 36;
-export const tableColorStripHeight = 7;
+export const defaultBlue: string = "#175e7a";
+export const defaultNoteTheme: string = "#fcf7ac";
+export const tableHeaderHeight: number = 50;
+export const tableWidth: number = 200;
+export const tableFieldHeight: number = 36;
+export const tableColorStripHeight: number = 7;
 
 export enum Cardinality {
   ONE_TO_ONE = i18n.t("one_to_one"),
