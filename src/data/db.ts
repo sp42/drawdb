@@ -1,4 +1,5 @@
 import Dexie from "dexie";
+import { Database } from '@types/dexie';
 import { template1 } from "../templates/template1";
 import { template2 } from "../templates/template2";
 import { template3 } from "../templates/template3";

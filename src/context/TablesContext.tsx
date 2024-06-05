@@ -1,31 +1,69 @@
 import React from 'react';
 import { createContext, useState } from "react";
-import { Action, ObjectType, defaultBlue } from "../data/constants";
+import { Action, ObjectType, defaultBlue, Cardinality } from "../data/constants";
 import { useSelect, useUndoRedo, useTransform } from "../context/hooks";
 import { Toast } from "@douyinfe/semi-ui";
 import { useTranslation } from "react-i18next";
 
-type TablesContext = {
+export type Relationships = {
+  id: number
+  name: string
+  startTableId: number
+  startFieldId: number
+  endTableId: number
+  endFieldId: number
+  updateConstraint: string
+  deleteConstraint: string
+  cardinality: Cardinality
+};
+
+export type TableField = {
+  name: string
+  type: string
+  default: string
+  check: string
+  primary: boolean
+  unique: boolean
+  notNull: boolean
+  increment: boolean
+  comment: string
+  id: number
+  size: string
+  values: []
+}
+
+export type Index = {
+  id: number
+  name: string
+  unique: boolean
+  fields: []
+};
+
+export type TablesContext = {
   id: number,
   name: string,
   x: number,
   y: number,
-  fields: [
-    {
-      name: "id",
-      type: "INT",
-      default: "",
-      check: "",
-      primary: true,
-      unique: true,
-      notNull: true,
-      increment: true,
-      comment: "",
-      id: 0,
-    },
+  fields: TableField[
+  // {
+  //   name: "id",
+  //   type: "INT",
+  //   default: "",
+  //   check: "",
+  //   primary: true,
+  //   unique: true,
+  //   notNull: true,
+  //   increment: true,
+  //   comment: "",
+  //   id: 0,
+  // },
   ],
   comment: string,
-  indices: [],
+
+  /**
+   * 索引
+   */
+  indices: Index[],
   color: string,
   key: any
 };
@@ -36,15 +74,16 @@ type TablesContextType = {
   addTable: (data: any, addToHistory: boolean) => void,
   updateTable: (id: number, updatedValues: []) => void,
   updateField: (tid: number, fid: number, updatedValues: []) => void,
-  deleteField: (field: any, tid: boolean, addToHistory: boolean) => void,
+  deleteField: (field: any, tid: number, addToHistory: boolean) => void,
   deleteTable: (id: number, addToHistory: boolean) => void,
-  relationships: []
-  setRelationships: React.Dispatch<React.SetStateAction<[]>>
+  relationships: Relationships[]
+  setRelationships: React.Dispatch<React.SetStateAction<Relationships[]>>
   addRelationship: (data: any, addToHistory: boolean) => void
   deleteRelationship: (id: number, addToHistory: boolean) => void
 }
 
 const _tables: TablesContext[] = [];
+const _relationships: Relationships[] = [];
 
 export const TablesContext: React.Context<TablesContextType> = createContext({
   tables: _tables,
@@ -52,10 +91,10 @@ export const TablesContext: React.Context<TablesContextType> = createContext({
   addTable: (data: any, addToHistory: boolean) => { },
   updateTable: (id: number, updatedValues: []) => { },
   updateField: (tid: number, fid: number, updatedValues: []) => { },
-  deleteField: (field: any, tid: boolean, addToHistory: boolean) => { },
+  deleteField: (field: any, tid: number, addToHistory: boolean) => { },
   deleteTable: (id: number, addToHistory: boolean) => { },
-  relationships: [],
-  setRelationships: (v: any) => { },
+  relationships: _relationships,
+  setRelationships: v => { },
   addRelationship: (data: any, addToHistory: boolean) => { },
   deleteRelationship: (id: number, addToHistory: boolean) => { }
 });
@@ -64,19 +103,19 @@ export default function TablesContextProvider({ children }: { children: React.Re
   const { t } = useTranslation();
   const { transform } = useTransform();
   const [tables, setTables] = useState<TablesContext[]>([]);
-  const [relationships, setRelationships] = useState<[]>([]);
+  const [relationships, setRelationships] = useState<Relationships[]>([]);
   const { setUndoStack, setRedoStack } = useUndoRedo();
   const { selectedElement, setSelectedElement } = useSelect();
 
   const addTable = (data: any, addToHistory = true) => {
-    if (data) {
+    if (data)
       setTables((prev) => {
         const temp = prev.slice();
         temp.splice(data.id, 0, data);
 
         return temp.map((t, i) => ({ ...t, id: i }));
       });
-    } else {
+    else
       setTables((prev) => [
         ...prev,
         {
@@ -100,9 +139,9 @@ export default function TablesContextProvider({ children }: { children: React.Re
           ],
           comment: "",
           indices: [], color: defaultBlue, key: Date.now()
-        },
+        }
       ]);
-    }
+
     if (addToHistory) {
       setUndoStack((prev) => [
         ...prev,
@@ -121,9 +160,11 @@ export default function TablesContextProvider({ children }: { children: React.Re
 
         return acc;
       }, []);
+
       setUndoStack((prev) => [...prev, { action: Action.DELETE, element: ObjectType.TABLE, data: { table: tables[id], relationship: rels }, message: t("delete_table", { tableName: tables[id] }) }]);
       setRedoStack([]);
     }
+
     setRelationships((prevR) => {
       return prevR.filter((e) => !(e.startTableId === id || e.endTableId === id)).map((e, i) => {
         const newR = { ...e };
@@ -139,25 +180,23 @@ export default function TablesContextProvider({ children }: { children: React.Re
     });
 
     setTables((prev) => prev.filter((e) => e.id !== id).map((e, i) => ({ ...e, id: i })));
-    if (id === selectedElement.id) {
+
+    if (id === selectedElement.id)
       setSelectedElement((prev) => ({ ...prev, element: ObjectType.NONE, id: -1, open: false }));
-    }
   };
 
   const updateTable = (id: number, updatedValues: []): void => setTables((prev) => prev.map((t) => (t.id === id ? { ...t, ...updatedValues } : t)));
 
   const updateField = (tid: number, fid: number, updatedValues: []) => {
-    setTables((prev) =>
-      prev.map((table, i) => {
-        if (tid === i)
-          return { ...table, fields: table.fields.map((field, j) => fid === j ? { ...field, ...updatedValues } : field) };
+    setTables((prev) => prev.map((table, i) => {
+      if (tid === i)
+        return { ...table, fields: table.fields.map((field, j) => fid === j ? { ...field, ...updatedValues } : field) };
 
-        return table;
-      }),
-    );
+      return table;
+    }));
   };
 
-  const deleteField = (field: any, tid: boolean, addToHistory: boolean = true) => {
+  const deleteField = (field: any, tid: number, addToHistory: boolean = true) => {
     if (addToHistory) {
       const rels = relationships.reduce((acc, r) => {
         if ((r.startTableId === tid && r.startFieldId === field.id) || (r.endTableId === tid && r.endFieldId === field.id))
@@ -173,9 +212,9 @@ export default function TablesContextProvider({ children }: { children: React.Re
       ]);
       setRedoStack([]);
     }
+
     setRelationships((prev) => {
-      const temp = prev
-        .filter((e) => !((e.startTableId === tid && e.startFieldId === field.id) || (e.endTableId === tid && e.endFieldId === field.id)))
+      const temp = prev.filter((e) => !((e.startTableId === tid && e.startFieldId === field.id) || (e.endTableId === tid && e.endFieldId === field.id)))
         .map((e, i) => {
           if (e.startTableId === tid && e.startFieldId > field.id)
             return { ...e, startFieldId: e.startFieldId - 1, id: i };
@@ -187,27 +226,30 @@ export default function TablesContextProvider({ children }: { children: React.Re
         });
       return temp;
     });
-    updateTable(tid, { fields: tables[tid].fields.filter((e) => e.id !== field.id).map((t, i) => { return { ...t, id: i }; }) });
+
+    updateTable(tid, { fields: tables[tid].fields.filter((e) => e.id !== field.id).map((t, i) => ({ ...t, id: i })) });
   };
 
   const addRelationship = (data: any, addToHistory: boolean = true) => {
-    if (addToHistory) {
+    if (addToHistory)
       setRelationships((prev) => {
         setUndoStack((prevUndo) => [
           ...prevUndo,
           { action: Action.ADD, element: ObjectType.RELATIONSHIP, data: data, message: t("add_relationship") },
         ]);
+
         setRedoStack([]);
+
         return [...prev, data];
       });
-    } else {
+    else
       setRelationships((prev) => {
         const temp = prev.slice();
         temp.splice(data.id, 0, data);
 
         return temp.map((t, i) => ({ ...t, id: i }));
       });
-    }
+
   };
 
   const deleteRelationship = (id: number, addToHistory: boolean = true) => {

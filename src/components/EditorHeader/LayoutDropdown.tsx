@@ -2,7 +2,7 @@ import React from 'react';
 import { IconCaretdown, IconCheckboxTick, IconRowsStroked } from "@douyinfe/semi-icons";
 import { Dropdown } from "@douyinfe/semi-ui";
 import { useLayout } from "../../context/hooks";
-import { enterFullscreen, exitFullscreen } from "../../utils/fullscreen";
+import { enterFullscreen, exitFullscreen } from "../../utils/utils";
 import { useTranslation } from "react-i18next";
 
 /**

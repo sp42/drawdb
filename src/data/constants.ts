@@ -62,7 +62,7 @@ export enum Cardinality {
   MANY_TO_ONE = i18n.t("many_to_one")
 };
 
-export enum enumraint {
+export enum Constraint {
   NONE = "No action",
   RESTRICT = "Restrict",
   CASCADE = "Cascade",

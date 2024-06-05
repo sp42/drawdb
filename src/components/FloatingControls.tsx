@@ -1,7 +1,7 @@
 import React from 'react';
 import { Divider, Tooltip } from "@douyinfe/semi-ui";
 import { useTransform, useLayout } from "../context/hooks";
-import { exitFullscreen } from "../utils/fullscreen";
+import { exitFullscreen } from "../utils/utils";
 import { useTranslation } from "react-i18next";
 
 export default function FloatingControls(): React.JSX.Element {

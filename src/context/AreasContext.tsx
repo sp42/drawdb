@@ -45,12 +45,7 @@ export default function AreasContextProvider({ children }: { children: React.Rea
     else
       setAreas((prev) => [
         ...prev,
-        {
-          id: prev.length, name: `area_${prev.length}`,
-          x: -transform.pan.x, y: -transform.pan.y,
-          width: 200, height: 200,
-          color: defaultBlue,
-        }
+        { id: prev.length, name: `area_${prev.length}`, x: -transform.pan.x, y: -transform.pan.y, width: 200, height: 200, color: defaultBlue }
       ]);
 
     if (addToHistory) {

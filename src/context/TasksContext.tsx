@@ -8,6 +8,7 @@ type TasksContextType = {
   setTasks: React.Dispatch<React.SetStateAction<TasksContext[]>>
   updateTask: (id: number, values: []) => void
 };
+
 const _tasks: TasksContext[] = [];
 export const TasksContext: React.Context<TasksContextType> = createContext({ tasks: _tasks, setTasks: v => { }, updateTask(id, values) { } });
 

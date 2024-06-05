@@ -11,7 +11,7 @@ import { Validator } from "jsonschema";
 import { areaSchema, noteSchema, tableSchema } from "../../data/schemas";
 import { db } from "../../data/db";
 import { useLayout, useSettings, useTransform, useTables, useUndoRedo, useSelect } from "../../context/hooks";
-import { enterFullscreen } from "../../utils/fullscreen";
+import { enterFullscreen } from "../../utils/utils";
 import { dataURItoBlob } from "../../utils/utils";
 import { useTypes, useNotes, useAreas, useSaveState } from "../../context/hooks";
 import { IconAddArea, IconAddNote, IconAddTable } from "../../utils/svgIcons";
@@ -636,20 +636,14 @@ export default function ControlPanel({ diagramId, setDiagramId, title, setTitle,
         children: [
           {
             PNG: () => {
-              toPng(document.getElementById("canvas")).then((dataUrl) => setExportData((prev) => ({ ...prev, data: dataUrl, extension: "png" })));
+              toPng(document.getElementById("canvas") as HTMLElement).then((dataUrl) => setExportData((prev) => ({ ...prev, data: dataUrl, extension: "png" })));
               setModal(MODAL.IMG);
             },
           },
           {
             JPEG: () => {
-              toJpeg(document.getElementById("canvas"), { quality: 0.95 }).then(
-                function (dataUrl) {
-                  setExportData((prev) => ({
-                    ...prev,
-                    data: dataUrl,
-                    extension: "jpeg",
-                  }));
-                },
+              toJpeg(document.getElementById("canvas") as HTMLElement, { quality: 0.95 }).then(
+                (dataUrl) => setExportData((prev) => ({ ...prev, data: dataUrl, extension: "jpeg" }))
               );
               setModal(MODAL.IMG);
             },
@@ -1058,9 +1052,7 @@ export default function ControlPanel({ diagramId, setDiagramId, title, setTitle,
                 ))}
                 <Dropdown.Divider />
                 <Dropdown.Item>
-                  <InputNumber
-                    field="zoom"
-                    label={t("zoom")}
+                  <InputNumber                    field="zoom"                    label={t("zoom")}
                     placeholder={t("zoom")}
                     suffix={<div className="p-1">%</div>}
                     onChange={(v) =>

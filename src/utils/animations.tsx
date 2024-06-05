@@ -21,7 +21,6 @@ export function FadeIn({ children, duration }: { children: React.ReactNode, dura
   </div>;
 }
 
-
 export function SlideIn({ children, duration, delay, className }: { children: React.ReactNode, duration: number, delay: number, className: string }) {
   const ref = useRef(null);
   const isInView: boolean = useInView(ref, { once: true });

@@ -1,5 +1,5 @@
 {
-  "name": "client-vite",
+  "name": "drawdb",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -35,13 +35,13 @@
     "react-hotkeys-hook": "^4.4.1",
     "react-i18next": "^14.1.1",
     "react-router-dom": "^6.21.0",
-    "typescript": "^5.4.5",
     "url": "^0.11.1"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.2.1",
+    "typescript": "^5.4.5",
     "autoprefixer": "^10.4.16",
     "eslint": "^8.55.0",
     "eslint-config-prettier": "^9.1.0",
