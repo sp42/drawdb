@@ -71,7 +71,7 @@ export type TablesContext = {
 type TablesContextType = {
   tables: TablesContext[]
   setTables: React.Dispatch<React.SetStateAction<TablesContext[]>>
-  addTable: (data: any, addToHistory: boolean) => void,
+  addTable: (data?: any, addToHistory?: boolean) => void,
   updateTable: (id: number, updatedValues: []) => void,
   updateField: (tid: number, fid: number, updatedValues: []) => void,
   deleteField: (field: any, tid: number, addToHistory: boolean) => void,
@@ -88,7 +88,7 @@ const _relationships: Relationships[] = [];
 export const TablesContext: React.Context<TablesContextType> = createContext({
   tables: _tables,
   setTables(v) { },
-  addTable: (data: any, addToHistory: boolean) => { },
+  addTable(data, addToHistory) { },
   updateTable: (id: number, updatedValues: []) => { },
   updateField: (tid: number, fid: number, updatedValues: []) => { },
   deleteField: (field: any, tid: number, addToHistory: boolean) => { },
@@ -107,7 +107,7 @@ export default function TablesContextProvider({ children }: { children: React.Re
   const { setUndoStack, setRedoStack } = useUndoRedo();
   const { selectedElement, setSelectedElement } = useSelect();
 
-  const addTable = (data: any, addToHistory = true) => {
+  const addTable = (data?: any, addToHistory = true) => {
     if (data)
       setTables((prev) => {
         const temp = prev.slice();
@@ -116,30 +116,29 @@ export default function TablesContextProvider({ children }: { children: React.Re
         return temp.map((t, i) => ({ ...t, id: i }));
       });
     else
-      setTables((prev) => [
-        ...prev,
-        {
-          id: prev.length,
-          name: `table_${prev.length}`,
-          x: -transform.pan.x,
-          y: -transform.pan.y,
-          fields: [
-            {
-              name: "id",
-              type: "INT",
-              default: "",
-              check: "",
-              primary: true,
-              unique: true,
-              notNull: true,
-              increment: true,
-              comment: "",
-              id: 0,
-            },
-          ],
-          comment: "",
-          indices: [], color: defaultBlue, key: Date.now()
-        }
+      setTables((prev) => [...prev,
+      {
+        id: prev.length,
+        name: `table_${prev.length}`,
+        x: -transform.pan.x,
+        y: -transform.pan.y,
+        fields: [
+          {
+            name: "id",
+            type: "INT",
+            default: "",
+            check: "",
+            primary: true,
+            unique: true,
+            notNull: true,
+            increment: true,
+            comment: "",
+            id: 0,
+          },
+        ],
+        comment: "",
+        indices: [], color: defaultBlue, key: Date.now()
+      }
       ]);
 
     if (addToHistory) {
