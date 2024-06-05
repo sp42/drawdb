@@ -1,3 +1,4 @@
+import React from 'react';
 import { Action, ObjectType, sqlDataTypes } from "../../../data/constants";
 import { Row, Col, Input, Button, Popover, Select } from "@douyinfe/semi-ui";
 import { IconMore, IconKeyStroked } from "@douyinfe/semi-icons";
@@ -37,8 +38,7 @@ export default function TableField({ data, tid, index }) {
                 undo: editField,
                 redo: { name: e.target.value },
                 message: t("edit_table", {
-                  tableName: tables[tid].name,
-                  extra: "[field]",
+                  tableName: tables[tid].name, extra: "[field]"
                 }),
               },
             ]);
@@ -47,22 +47,8 @@ export default function TableField({ data, tid, index }) {
         />
       </Col>
       <Col span={8}>
-        <Select
-          className="w-full"
-          optionList={[
-            ...sqlDataTypes.map((value) => ({
-              label: value,
-              value: value,
-            })),
-            ...types.map((type) => ({
-              label: type.name.toUpperCase(),
-              value: type.name.toUpperCase(),
-            })),
-          ]}
-          filter
-          value={data.type}
-          validateStatus={data.type === "" ? "error" : "default"}
-          placeholder="Type"
+        <Select className="w-full" optionList={[...sqlDataTypes.map((value) => ({ label: value, value: value })), ...types.map((type) => ({ label: type.name.toUpperCase(), value: type.name.toUpperCase() })),
+        ]} filter value={data.type} validateStatus={data.type === "" ? "error" : "default"} placeholder="Type"
           onChange={(value) => {
             if (value === data.type) return;
             setUndoStack((prev) => [
@@ -75,29 +61,15 @@ export default function TableField({ data, tid, index }) {
                 fid: index,
                 undo: { type: data.type },
                 redo: { type: value },
-                message: t("edit_table", {
-                  tableName: tables[tid].name,
-                  extra: "[field]",
-                }),
-              },
+                message: t("edit_table", { tableName: tables[tid].name, extra: "[field]" }),
+              }
             ]);
             setRedoStack([]);
-            const incr =
-              data.increment &&
-              (value === "INT" || value === "BIGINT" || value === "SMALLINT");
+            const incr = data.increment && (value === "INT" || value === "BIGINT" || value === "SMALLINT");
             if (value === "ENUM" || value === "SET") {
-              updateField(tid, index, {
-                type: value,
-                default: "",
-                values: data.values ? [...data.values] : [],
-                increment: incr,
-              });
+              updateField(tid, index, { type: value, default: "", values: data.values ? [...data.values] : [], increment: incr });
             } else if (isSized(value) || hasPrecision(value)) {
-              updateField(tid, index, {
-                type: value,
-                size: getSize(value),
-                increment: incr,
-              });
+              updateField(tid, index, { type: value, size: getSize(value), increment: incr });
             } else if (
               value === "BLOB" ||
               value === "JSON" ||
@@ -105,13 +77,7 @@ export default function TableField({ data, tid, index }) {
               value === "TEXT" ||
               incr
             ) {
-              updateField(tid, index, {
-                type: value,
-                increment: incr,
-                default: "",
-                size: "",
-                values: [],
-              });
+              updateField(tid, index, { type: value, increment: incr, default: "", size: "", values: [] });
             } else if (hasCheck(value)) {
               updateField(tid, index, {
                 type: value,

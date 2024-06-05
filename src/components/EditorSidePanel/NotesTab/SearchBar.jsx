@@ -8,16 +8,9 @@ export default function SearchBar({ setActiveKey }) {
   const { notes } = useNotes();
   const [searchText, setSearchText] = useState("");
   const { t } = useTranslation();
+  const [filteredResult, setFilteredResult] = useState(notes.map((t) => t.title));
 
-  const [filteredResult, setFilteredResult] = useState(
-    notes.map((t) => t.title),
-  );
-
-  const handleStringSearch = (value) => {
-    setFilteredResult(
-      notes.map((t) => t.title).filter((i) => i.includes(value)),
-    );
-  };
+  const handleStringSearch = (value) => { setFilteredResult(notes.map((t) => t.title).filter((i) => i.includes(value))); };
 
   return (
     <AutoComplete

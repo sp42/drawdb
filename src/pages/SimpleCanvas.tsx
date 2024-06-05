@@ -1,30 +1,16 @@
 import React from 'react';
 import { useEffect, useState, useRef } from "react";
-import {
-  Cardinality,
-  tableColorStripHeight,
-  tableFieldHeight,
-  tableHeaderHeight,
-  tableWidth,
-} from "../data/constants";
+import { Cardinality, tableColorStripHeight, tableFieldHeight, tableHeaderHeight, tableWidth } from "../data/constants";
 import { calcPath } from "../utils/calcPath";
 
 function Table({ table, grab }) {
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredField, setHoveredField] = useState(-1);
-  const height =
-    table.fields.length * tableFieldHeight +
-    tableHeaderHeight +
-    tableColorStripHeight;
+  const height = table.fields.length * tableFieldHeight + tableHeaderHeight + tableColorStripHeight;
 
   return (
-    <foreignObject key={table.name} x={table.x} y={table.y}
-      width={tableWidth} height={height}
-      className="drop-shadow-lg rounded-md cursor-move"
-      onMouseDown={grab} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}
-    >
-      <div className={`border-2 ${isHovered ? "border-dashed border-blue-500" : "border-zinc-300"} select-none rounded-lg w-full bg-zinc-100 text-zinc-800`}
-      >
+    <foreignObject key={table.name} x={table.x} y={table.y} width={tableWidth} height={height} className="drop-shadow-lg rounded-md cursor-move" onMouseDown={grab} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+      <div className={`border-2 ${isHovered ? "border-dashed border-blue-500" : "border-zinc-300"} select-none rounded-lg w-full bg-zinc-100 text-zinc-800`}>
         <div className={`h-[10px] w-full rounded-t-md`} style={{ backgroundColor: table.color }} />
         <div className="font-bold h-[40px] flex justify-between items-center border-b border-zinc-400 bg-zinc-200 px-3">
           {table.name}

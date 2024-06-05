@@ -1,15 +1,16 @@
+import React from 'react';
 import { Tabs, TabPane } from "@douyinfe/semi-ui";
 import { Tab } from "../../data/constants";
 import { useLayout, useSelect } from "../../context/hooks";
-import RelationshipsTab from "./RelationshipsTab/RelationshipsTab";
+import RelationshipsTab from "./RelationshipsTab";
 import TypesTab from "./TypesTab/TypesTab";
 import Issues from "./Issues";
-import AreasTab from "./AreasTab/AreasTab";
-import NotesTab from "./NotesTab/NotesTab";
+import AreasTab from "./AreasTab";
+import NotesTab from "./NotesTab";
 import TablesTab from "./TablesTab/TablesTab";
 import { useTranslation } from "react-i18next";
 
-export default function SidePanel({ width, resize, setResize }) {
+export default function SidePanel({ width, resize, setResize }: { width: number, resize: boolean, setResize: (v: boolean) => void }) {
   const { layout } = useLayout();
   const { selectedElement, setSelectedElement } = useSelect();
   const { t } = useTranslation();
@@ -25,8 +26,7 @@ export default function SidePanel({ width, resize, setResize }) {
   return <div className="flex h-full">
     <div className="flex flex-col h-full relative border-r border-color" style={{ width: `${width}px` }}      >
       <div className="h-full flex-1 overflow-y-auto">
-        <Tabs type="card" activeKey={selectedElement.currentTab} lazyRender
-          onChange={(key) => setSelectedElement((prev) => ({ ...prev, currentTab: key }))} collapsible          >
+        <Tabs type="card" activeKey={selectedElement.currentTab} lazyRender onChange={(key) => setSelectedElement((prev) => ({ ...prev, currentTab: key }))} collapsible          >
           {tabList.length && tabList.map((tab) => (
             <TabPane tab={tab.tab} itemKey={tab.itemKey} key={tab.itemKey}>
               <div className="p-2">{tab.component}</div>
@@ -40,8 +40,7 @@ export default function SidePanel({ width, resize, setResize }) {
         </div>
       )}
     </div>
-    <div className={`flex justify-center items-center p-1 h-auto hover-2 cursor-col-resize ${resize && "bg-semi-grey-2"}`}
-      onMouseDown={() => setResize(true)}>
+    <div className={`flex justify-center items-center p-1 h-auto hover-2 cursor-col-resize ${resize && "bg-semi-grey-2"}`} onMouseDown={() => setResize(true)}>
       <div className="w-1 border-x border-color h-1/6" />
     </div>
   </div>;

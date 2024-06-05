@@ -5,7 +5,7 @@ import Canvas from "./EditorCanvas/Canvas";
 import SidePanel from "./EditorSidePanel/SidePanel";
 import { State } from "../data/constants";
 import { db } from "../data/db";
-import { useLayout, useSettings, useTransform, useTables, useUndoRedo, useAreas, useNotes, useTypes, useTasks, useSaveState } from "../context/hooks";
+import { useLayout, useSettings, useTransform, useTables, useUndoRedo, useAreas, useNotes, useTypes, useSaveState } from "../context/hooks";
 import FloatingControls from "./FloatingControls";
 
 /**
@@ -14,16 +14,15 @@ import FloatingControls from "./FloatingControls";
  * @returns 
  */
 export default function WorkSpace() {
-  const [id, setId] = useState(0);
-  const [title, setTitle] = useState("Untitled Diagram");
-  const [resize, setResize] = useState(false);
-  const [width, setWidth] = useState(340);
-  const [lastSaved, setLastSaved] = useState("");
+  const [id, setId] = useState<number>(0);
+  const [title, setTitle] = useState<string>("Untitled Diagram");
+  const [resize, setResize] = useState<boolean>(false);
+  const [width, setWidth] = useState<number>(340);
+  const [lastSaved, setLastSaved] = useState<string>("");
   const { layout } = useLayout();
   const { settings } = useSettings();
   const { types, setTypes } = useTypes();
   const { areas, setAreas } = useAreas();
-  const { tasks, setTasks } = useTasks();
   const { notes, setNotes } = useNotes();
   const { saveState, setSaveState } = useSaveState();
   const { transform, setTransform } = useTransform();
@@ -43,33 +42,27 @@ export default function WorkSpace() {
 
     if (saveAsDiagram) {
       if ((id === 0 && window.name === "") || window.name.split(" ")[0] === "lt")
-        await db.diagrams.add({
-          name: title, lastModified: new Date(), tables: tables, references: relationships,
-          types: types, notes: notes,
-          areas: areas, todos: tasks,
-          pan: transform.pan, zoom: transform.zoom
-        }).then((id) => {
+        await db.diagrams.add({ name: title, lastModified: new Date(), tables: tables, references: relationships, types: types, notes: notes, areas: areas, pan: transform.pan, zoom: transform.zoom }).then((id) => {
           setId(id);
           window.name = `d ${id}`;
           setSaveState(State.SAVED);
           setLastSaved(new Date().toLocaleString());
         });
       else
-        await db.diagrams.update(id, { name: title, lastModified: new Date(), tables: tables, references: relationships, types: types, notes: notes, areas: areas, todos: tasks, pan: transform.pan, zoom: transform.zoom })
+        await db.diagrams.update(id, { name: title, lastModified: new Date(), tables: tables, references: relationships, types: types, notes: notes, areas: areas, pan: transform.pan, zoom: transform.zoom })
           .then(() => {
             setSaveState(State.SAVED);
             setLastSaved(new Date().toLocaleString());
           });
 
     } else
-      await db.templates.update(id, { title: title, tables: tables, relationships: relationships, types: types, notes: notes, subjectAreas: areas, todos: tasks, pan: transform.pan, zoom: transform.zoom })
+      await db.templates.update(id, { title: title, tables: tables, relationships: relationships, types: types, notes: notes, subjectAreas: areas, pan: transform.pan, zoom: transform.zoom })
         .then(() => {
           setSaveState(State.SAVED);
           setLastSaved(new Date().toLocaleString());
         })
-        .catch(() => setSaveState(State.ERROR)
-        );
-  }, [tables, relationships, notes, areas, types, title, id, tasks, transform, setSaveState]);
+        .catch(() => setSaveState(State.ERROR));
+  }, [tables, relationships, notes, areas, types, title, id, transform, setSaveState]);
 
   const load = useCallback(async () => {
     const loadLatestDiagram = async () => {
@@ -82,7 +75,6 @@ export default function WorkSpace() {
           setNotes(d.notes);
           setAreas(d.areas);
           setTypes(d.types);
-          setTasks(d.todos ?? []);
           setTransform({ pan: d.pan, zoom: d.zoom });
           window.name = `d ${d.id}`;
         } else
@@ -100,7 +92,6 @@ export default function WorkSpace() {
           setRelationships(diagram.references);
           setAreas(diagram.areas);
           setNotes(diagram.notes);
-          setTasks(diagram.todos ?? []);
           setTransform({ pan: diagram.pan, zoom: diagram.zoom });
           setUndoStack([]);
           setRedoStack([]);
@@ -119,7 +110,6 @@ export default function WorkSpace() {
           setTypes(diagram.types);
           setRelationships(diagram.relationships);
           setAreas(diagram.subjectAreas);
-          setTasks(diagram.todos ?? []);
           setNotes(diagram.notes);
           setTransform({ zoom: 1, pan: { x: 0, y: 0 } });
           setUndoStack([]);
@@ -149,18 +139,15 @@ export default function WorkSpace() {
           break;
       }
     }
-  }, [setTransform, setRedoStack, setUndoStack, setRelationships, setTables, setAreas, setNotes, setTypes, setTasks]);
+  }, [setTransform, setRedoStack, setUndoStack, setRelationships, setTables, setAreas, setNotes, setTypes]);
 
   useEffect(() => {
-    if (tables?.length === 0 && areas?.length === 0 && notes?.length === 0 && types?.length === 0 && tasks?.length === 0)
+    if (tables?.length === 0 && areas?.length === 0 && notes?.length === 0 && types?.length === 0)
       return;
 
     if (settings.autosave)
       setSaveState(State.SAVING);
-  }, [
-    undoStack, redoStack, settings.autosave, tables?.length, areas?.length, notes?.length,
-    types?.length, relationships?.length, tasks?.length, transform.zoom, title, setSaveState
-  ]);
+  }, [undoStack, redoStack, settings.autosave, tables?.length, areas?.length, notes?.length, types?.length, relationships?.length, transform.zoom, title, setSaveState]);
 
   useEffect(() => {
     if (saveState !== State.SAVING) return;

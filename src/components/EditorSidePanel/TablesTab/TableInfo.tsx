@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from "react";
 import {
   Collapse,
@@ -288,12 +289,7 @@ export default function TableInfo({ data }) {
               updateTable(data.id, {
                 indices: [
                   ...data.indices,
-                  {
-                    id: data.indices.length,
-                    name: `index_${data.indices.length}`,
-                    unique: false,
-                    fields: [],
-                  },
+                  {                    id: data.indices.length,                    name: `index_${data.indices.length}`,                    unique: false,                    fields: []                  }
                 ],
               });
             }}

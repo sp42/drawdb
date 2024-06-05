@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from "react";
 import { Action, ObjectType, sqlDataTypes } from "../../../data/constants";
 import { Row, Col, Input, Button, Select, TagInput, InputNumber, Popover } from "@douyinfe/semi-ui";
@@ -126,8 +127,12 @@ export default function TypeField({ data, tid, fid }) {
             {hasPrecision(data.type) && (
               <>
                 <div className="font-semibold">{t("precision")}</div>
-                <Input className="my-2 w-full" placeholder={t("set_precision")} validateStatus={/^\(\d+,\s*\d+\)$|^$/.test(data.size) ? "default" : "error"}
-                  value={data.size} onChange={(value) => updateType(tid, { fields: types[tid].fields.map((e, id) => id === fid ? { ...data, size: value } : e,) })}
+                <Input
+                  className="my-2 w-full"
+                  placeholder={t("set_precision")}
+                  validateStatus={/^\(\d+,\s*\d+\)$|^$/.test(data.size) ? "default" : "error"}
+                  value={data.size}
+                  onChange={(value) => updateType(tid, { fields: types[tid].fields.map((e, id) => id === fid ? { ...data, size: value } : e,) })}
                   onFocus={(e) => setEditField({ size: e.target.value })}
                   onBlur={(e) => {
                     if (e.target.value === editField.size) return;

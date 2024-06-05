@@ -1,8 +1,9 @@
+import React from 'react';
 import { useState } from "react";
 import { Button, Collapse, TextArea, Popover, Input } from "@douyinfe/semi-ui";
 import { IconDeleteStroked, IconCheckboxTick } from "@douyinfe/semi-icons";
-import { noteThemes, Action, ObjectType } from "../../../data/constants";
-import { useNotes, useUndoRedo } from "../../../context/hooks";
+import { noteThemes, Action, ObjectType } from "../../data/constants";
+import { useNotes, useUndoRedo } from "../../context/hooks";
 import { useTranslation } from "react-i18next";
 
 export default function NoteInfo({ data, nid }) {
@@ -60,9 +61,7 @@ export default function NoteInfo({ data, nid }) {
                 nid: nid,
                 undo: editField,
                 redo: { content: e.target.value, height: newHeight },
-                message: t("edit_note", {
-                  noteTitle: e.target.value, extra: "[content]"
-                }),
+                message: t("edit_note", { noteTitle: e.target.value, extra: "[content]" }),
               },
             ]);
             setRedoStack([]);
@@ -70,7 +69,7 @@ export default function NoteInfo({ data, nid }) {
           rows={3}
         />
         <div className="ms-2">
-          <Popover
+          <Popover trigger="click" position="rightTop" showArrow
             content={
               <div className="popover-theme">
                 <div className="font-medium mb-1">{t("theme")}</div>
@@ -99,9 +98,7 @@ export default function NoteInfo({ data, nid }) {
                   ))}
                 </div>
               </div>
-            }
-            trigger="click" position="rightTop" showArrow
-          >
+            } >
             <div className="h-[32px] w-[32px] rounded mb-2" style={{ backgroundColor: data.color }}
             />
           </Popover>

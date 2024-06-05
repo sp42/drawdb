@@ -1,3 +1,4 @@
+import React from 'react';
 import { useMemo, useState } from "react";
 import { useSelect } from "../../../context/hooks";
 import { AutoComplete } from "@douyinfe/semi-ui";
@@ -9,21 +10,11 @@ export default function SearchBar({ tables }) {
   const { setSelectedElement } = useSelect();
   const [searchText, setSearchText] = useState("");
   const { t } = useTranslation();
-  const filteredTable = useMemo(
-    () => tables.map((t) => t.name).filter((i) => i.includes(searchText)),
-    [tables, searchText],
-  );
+  const filteredTable = useMemo(() => tables.map((t) => t.name).filter((i) => i.includes(searchText)), [tables, searchText]);
 
   return (
-    <AutoComplete
-      data={filteredTable}
-      value={searchText}
-      showClear
-      prefix={<IconSearch />}
-      placeholder={t("search")}
-      emptyContent={<div className="p-3 popover-theme">{t("not_found")}</div>}
-      onChange={(v) => setSearchText(v)}
-      onSelect={(v) => {
+    <AutoComplete className="w-full" data={filteredTable} value={searchText} showClear prefix={<IconSearch />} placeholder={t("search")} emptyContent={<div className="p-3 popover-theme">{t("not_found")}</div>}
+      onChange={(v) => setSearchText(v)} onSelect={(v) => {
         const { id } = tables.find((t) => t.name === v);
         setSelectedElement((prev) => ({
           ...prev,
@@ -31,11 +22,7 @@ export default function SearchBar({ tables }) {
           open: true,
           element: ObjectType.TABLE,
         }));
-        document
-          .getElementById(`scroll_table_${id}`)
-          .scrollIntoView({ behavior: "smooth" });
-      }}
-      className="w-full"
-    />
+        document.getElementById(`scroll_table_${id}`)?.scrollIntoView({ behavior: "smooth" });
+      }} />
   );
 }

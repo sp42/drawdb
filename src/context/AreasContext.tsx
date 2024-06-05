@@ -5,7 +5,7 @@ import { useSelect, useTransform, useUndoRedo } from "../context/hooks";
 import { Toast } from "@douyinfe/semi-ui";
 import { useTranslation } from "react-i18next";
 
-type AreasContext = {
+export type AreasContext = {
   id: number
   name: string
 };

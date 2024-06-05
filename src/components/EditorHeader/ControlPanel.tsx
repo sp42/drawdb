@@ -23,7 +23,7 @@ import LayoutDropdown from "./LayoutDropdown";
 import Sidesheet from "./SideSheet/Sidesheet";
 import Modal from "./Modal/Modal";
 
-export default function ControlPanel({ diagramId, setDiagramId, title, setTitle, lastSaved }) {
+export default function ControlPanel({ diagramId, setDiagramId, title, setTitle, lastSaved }: { diagramId: number, setDiagramId: (v: number) => {}, title: string, setTitle: (v: string) => {} }) {
   const [modal, setModal] = useState(MODAL.NONE);
   const [sidesheet, setSidesheet] = useState(SIDESHEET.NONE);
   const [prevTitle, setPrevTitle] = useState(title);
@@ -943,30 +943,15 @@ export default function ControlPanel({ diagramId, setDiagramId, title, setTitle,
         ],
         function: () => { },
       },
-      zoom_in: {
-        function: zoomIn,
-        shortcut: "Ctrl+Up/Wheel",
-      },
-      zoom_out: {
-        function: zoomOut,
-        shortcut: "Ctrl+Down/Wheel",
-      },
-      fullscreen: {
-        function: enterFullscreen,
-      },
+      zoom_in: { function: zoomIn, shortcut: "Ctrl+Up/Wheel" },
+      zoom_out: { function: zoomOut, shortcut: "Ctrl+Down/Wheel" },
+      fullscreen: { function: enterFullscreen },
     },
     settings: {
-      show_timeline: {
-        function: () => setSidesheet(SIDESHEET.TIMELINE),
-      },
+      show_timeline: { function: () => setSidesheet(SIDESHEET.TIMELINE) },
       autosave: {
-        state: settings.autosave ? (
-          <i className="bi bi-toggle-on" />
-        ) : (
-          <i className="bi bi-toggle-off" />
-        ),
-        function: () =>
-          setSettings((prev) => ({ ...prev, autosave: !prev.autosave })),
+        state: settings.autosave ? (<i className="bi bi-toggle-on" />) : (<i className="bi bi-toggle-off" />),
+        function: () => setSettings((prev) => ({ ...prev, autosave: !prev.autosave }))
       },
       panning: {
         state: settings.panning ? (
@@ -991,9 +976,8 @@ export default function ControlPanel({ diagramId, setDiagramId, title, setTitle,
           db.delete().then(() => {
             Toast.success(t("storage_flushed"));
             window.location.reload(false);
-          }).catch(() => {
-            Toast.error(t("oops_smth_went_wrong"));
-          });
+          }).catch(() => Toast.error(t("oops_smth_went_wrong"))
+          );
         },
       },
     }
@@ -1031,6 +1015,11 @@ export default function ControlPanel({ diagramId, setDiagramId, title, setTitle,
     </>
   );
 
+  /**
+   * 工具条
+   * 
+   * @returns 
+   */
   function toolbar() {
     return (
       <div className="py-1.5 px-5 flex justify-between items-center rounded-xl my-1 sm:mx-1 xl:mx-6 select-none overflow-hidden toolbar-theme">
@@ -1052,7 +1041,7 @@ export default function ControlPanel({ diagramId, setDiagramId, title, setTitle,
                 ))}
                 <Dropdown.Divider />
                 <Dropdown.Item>
-                  <InputNumber                    field="zoom"                    label={t("zoom")}
+                  <InputNumber field="zoom" label={t("zoom")}
                     placeholder={t("zoom")}
                     suffix={<div className="p-1">%</div>}
                     onChange={(v) =>
@@ -1132,11 +1121,11 @@ export default function ControlPanel({ diagramId, setDiagramId, title, setTitle,
               <IconSaveStroked size="extra-large" />
             </button>
           </Tooltip>
-          <Tooltip content={t("to_do")} position="bottom">
+{/*           <Tooltip content={t("to_do")} position="bottom">
             <button className="py-1 px-2 hover-2 rounded text-xl -mt-0.5" onClick={() => setSidesheet(SIDESHEET.TODO)}            >
               <i className="fa-regular fa-calendar-check" />
             </button>
-          </Tooltip>
+          </Tooltip> */}
           <Divider layout="vertical" margin="8px" />
           <Tooltip content={t("theme")} position="bottom">
             <button className="py-1 px-2 hover-2 rounded text-xl -mt-0.5" onClick={() => {

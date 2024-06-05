@@ -8,7 +8,6 @@ import { SettingsContext } from "./SettingsContext";
 import { TransformContext } from "./TransformContext";
 import { TypesContext } from "./TypesContext";
 import { UndoRedoContext } from "./UndoRedoContext";
-import { TasksContext } from "./TasksContext";
 import { TablesContext } from "./TablesContext";
 
 export function useAreas() {
@@ -37,10 +36,6 @@ export function useSettings() {
 
 export function useTables() {
     return useContext(TablesContext);
-}
-
-export function useTasks() {
-    return useContext(TasksContext);
 }
 
 export function useTransform() {

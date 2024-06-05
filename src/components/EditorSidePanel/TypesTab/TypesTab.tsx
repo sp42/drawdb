@@ -1,3 +1,4 @@
+import React from 'react';
 import { Collapse, Button, Popover } from "@douyinfe/semi-ui";
 import { IconPlus, IconInfoCircle } from "@douyinfe/semi-icons";
 import { useSelect, useTypes } from "../../../context/hooks";

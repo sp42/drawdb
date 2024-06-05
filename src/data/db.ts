@@ -1,5 +1,4 @@
-import Dexie from "dexie";
-import { Database } from '@types/dexie';
+import Dexie, { Table } from "dexie";
 import { template1 } from "../templates/template1";
 import { template2 } from "../templates/template2";
 import { template3 } from "../templates/template3";
@@ -16,7 +15,14 @@ const templateSeeds = [
   template6,
 ];
 
-export const db: Dexie = new Dexie("drawDB");
+interface Diagrams {
+
+}
+
+export const db = new Dexie("drawDB") as Dexie & {
+  diagrams: Table<Diagrams>;
+  templates: Table<Diagrams>;
+};
 
 db.version(5).stores({ diagrams: "++id, lastModified", templates: "++id, custom" });
 //@ts-ignore

@@ -2,8 +2,8 @@ import React from 'react';
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { IconCrossStroked } from "@douyinfe/semi-icons";
-import SimpleCanvas from "../components/SimpleCanvas";
-import Navbar from "../components/Navbar";
+import SimpleCanvas from "./SimpleCanvas";
+import Navbar from "./Navbar";
 import { diagram } from "../data/heroDiagram";
 import { Steps } from "@douyinfe/semi-ui";
 import mysql_icon from "../assets/mysql.png";
@@ -13,7 +13,6 @@ import mariadb_icon from "../assets/mariadb.png";
 import sql_server_icon from "../assets/sql-server.png";
 import discord from "../assets/discord.png";
 import github from "../assets/github.png";
-import { FadeIn, SlideIn } from "../utils/animations";
 
 /**
  * 启动页
@@ -50,7 +49,6 @@ export default function LandingPage() {
           </div>
           <div className="hidden md:block h-full bg-dots"></div>
           <div className="absolute left-12 top-[50%] translate-y-[-50%] md:left-[50%] md:translate-x-[-50%] p-8 md:p-3 md:w-full text-zinc-800 text-center">
-            <FadeIn duration={0.75}>
               <div className="text-4xl font-bold tracking-wide">
                 <h1 className="py-1 bg-gradient-to-r from-slate-700 from-10% via-slate-500 to-slate-700 inline-block text-transparent bg-clip-text">
                   Draw, Copy, and Paste
@@ -60,14 +58,11 @@ export default function LandingPage() {
                 Free, simple, and intuitive database design tool and SQL
                 generator.
               </div>
-            </FadeIn>
             <div className="mt-4 flex gap-4 justify-center font-semibold">
               <button
                 className="bg-white shadow-lg px-9 py-2 rounded border border-zinc-200 hover:bg-zinc-100 transition-all duration-300"
                 onClick={() =>
-                  document
-                    .getElementById("learn-more")
-                    .scrollIntoView({ behavior: "smooth" })
+                  document                    .getElementById("learn-more")                    .scrollIntoView({ behavior: "smooth" })
                 }
               >
                 Learn more
@@ -84,7 +79,6 @@ export default function LandingPage() {
       </div>
       <div id="learn-more">
         <div className="bg-zinc-100 py-20 px-24 md:px-8 rounded-b-[40px]">
-          <FadeIn duration={1}>
             <div className="text-2xl text-slate-900 font-bold text-center mb-10 md:hidden">
               Entity-Relationship diagrams simplified
             </div>
@@ -104,13 +98,11 @@ export default function LandingPage() {
                 />
               </Steps>
             </div>
-          </FadeIn>
           <div className="mt-20 text-center w-[75%] sm:w-full mx-auto shadow-sm rounded-lg border p-12 bg-white">
             <div className="text-2xl font-bold text-slate-900 mb-8">
               Why drawDB?
             </div>
             <div className="grid grid-cols-3 gap-4 md:grid-cols-1 h-full">
-              <SlideIn delay={0} duration={0.4} className="h-full">
                 <div className="h-full border rounded-lg p-6 hover:bg-slate-100 transition-all duration-300">
                   <span className="text-white bg-green-400 rounded-full py-2.5 px-3">
                     <i className="fa-solid fa-credit-card"></i>
@@ -122,8 +114,6 @@ export default function LandingPage() {
                     drawDB is completely free of charge.
                   </div>
                 </div>
-              </SlideIn>
-              <SlideIn delay={1 * 0.4} duration={0.4} className="h-full">
                 <div className="h-full border rounded-lg p-6 hover:bg-slate-100 transition-all duration-300">
                   <span className="text-white bg-blue-400 rounded-full py-2.5 px-3">
                     <i className="fa-solid fa-user-xmark"></i>
@@ -135,8 +125,6 @@ export default function LandingPage() {
                     No need to sign up or login. Just jump into development.
                   </div>
                 </div>
-              </SlideIn>
-              <SlideIn delay={2 * 0.4} duration={0.4} className="h-full">
                 <div className="h-full border rounded-lg p-6 hover:bg-slate-100 transition-all duration-300">
                   <span className="text-white bg-emerald-400 rounded-full py-2.5 px-3">
                     <i className="fa-regular fa-star "></i>
@@ -148,13 +136,11 @@ export default function LandingPage() {
                     Intuitive design that&apos;s easy to navigate.
                   </div>
                 </div>
-              </SlideIn>
             </div>
           </div>
         </div>
       </div>
       <div id="features" className="py-20 px-36 md:px-8">
-        <FadeIn duration={1}>
           <div className="text-2xl font-bold text-center">
             Here is what drawDB offers
           </div>
@@ -176,7 +162,6 @@ export default function LandingPage() {
               </div>
             ))}
           </div>
-        </FadeIn>
       </div>
       <div className="bg-zinc-100 py-20 px-32 md:px-8 rounded-t-[40px]">
         <div className="text-center text-2xl font-bold mb-4">

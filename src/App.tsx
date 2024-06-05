@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { useLayoutEffect } from "react";
 import Editor from "./pages/Editor";
 import Shortcuts from "./pages/Shortcuts";
 import Templates from "./pages/Templates";
@@ -32,8 +31,7 @@ export default function App() {
           <Route path="*" element={
             <div className="p-3 space-y-2">
               Not found.
-              <p> to create a relationship hold the blue dot of a field and drag it towards the field you want to connect it to
-              </p>
+              <p> to create a relationship hold the blue dot of a field and drag it towards the field you want to connect it to </p>
             </div>
           } />
         </Routes>
@@ -45,7 +43,7 @@ export default function App() {
 function ThemedPage({ children }: { children: React.ReactNode }) {
   const { setSettings } = useSettings();
 
-  useLayoutEffect(() => {
+  React.useLayoutEffect(() => {
     const theme: string | null = localStorage.getItem("theme");
 
     if (theme === "dark") {
@@ -66,9 +64,9 @@ function ThemedPage({ children }: { children: React.ReactNode }) {
   return children;
 }
 
-function RestoreScroll() {
+function RestoreScroll(): null {
   const location = useLocation();
-  useLayoutEffect(() => window.scroll(0, 0), [location.pathname]);
+  React.useLayoutEffect(() => window.scroll(0, 0), [location.pathname]);
 
   return null;
 }
